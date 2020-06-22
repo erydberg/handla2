@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Redigera</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+       <a class="toolitem" th:href="@{'/menu/list/'}"><img th:src="@{/styles/back.png}"></a>
+       <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Planerad meny</h1>
+</div>
+<form id="frmEditMenu" method="post" class="form-general" th:action="@{/menu/save}" th:object="${menu}">
+    <div class="form-box">
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="title">Maträtt</label>
+        <input class="input-long" type="text" id="title" placeholder="Skriv in maträttens namn" th:field="*{title}">
+        <label for="dayToEat">Dag</label>
+        <input type="date" id="dayToEat" th:field="*{dayToEat}">
+        <label for="description">Beskrivning</label>
+        <textarea id="description" rows="10" cols="50" th:field="*{description}"></textarea>
+        <label for="descriptionUrl">Länk till recept</label>
+        <input class="input-long" type="url" id="descriptionUrl" th:field="*{descriptionUrl}">
+        <fieldset>
+
+            <label class="label_normal" for="eaten">Ätit</label><input type="checkbox" id="eaten" th:field="*{eaten}"/>
+
+            <label for="grade">Utvärdering</label>
+            <select name="grade" id="grade" th:field="*{grade}">
+                <option th:each="gradeOpt : ${T(se.rydberg.handla.menu.Grade).values()}"
+                        th:value="${gradeOpt}" th:text="${gradeOpt.displayValue}"
+                </option>
+            </select>
+        </fieldset>
+        <div class="submit-area">
+            <button type="submit">Spara</button>
+        </div>
+        </p>
+</form>
+</body>
+</html>
