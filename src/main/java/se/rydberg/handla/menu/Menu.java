@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -30,6 +32,7 @@ public class Menu {
     private LocalDate dayToEat;
     @URL(message = "Länken behöver vara korrekt")
     private String descriptionUrl;
+    @Enumerated(EnumType.STRING)
     private Grade grade = Grade.UN_GRADED;
     private boolean eaten;
 }
