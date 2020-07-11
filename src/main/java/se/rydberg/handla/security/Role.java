@@ -21,7 +21,7 @@ public class Role {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     @NonNull
     private String name;
     @ManyToMany(mappedBy = "roles")

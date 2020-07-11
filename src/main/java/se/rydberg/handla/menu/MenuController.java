@@ -30,8 +30,6 @@ public class MenuController {
     @GetMapping("/planned")
     public String plannedMenu(Model model) {
         // Test
-        TestLoader testLoader = new TestLoader(menuService);
-        testLoader.loadMenus();
 
         //model.addAttribute("menus", menuService.getAllByDate());
         model.addAttribute("menus", menuService.getAll());
