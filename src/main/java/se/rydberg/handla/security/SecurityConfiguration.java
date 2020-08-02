@@ -12,24 +12,37 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private UserDetailsServiceImpl userDetailsService;
 
-    public SecurityConfiguration(UserDetailsServiceImpl userDetailsService){
+    public SecurityConfiguration(UserDetailsServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .authorizeRequests()
-                .antMatchers("/generateusers").permitAll()
-                .antMatchers("/menu*").hasRole("USER")
-                //.anyRequest().authenticated()
+        httpSecurity.authorizeRequests()
+                .antMatchers("/generateusers")
+                .permitAll()
+                .antMatchers("/menu/*")
+                .hasRole("USER")
+                // .anyRequest().authenticated()
+                .antMatchers("/h2-console/**")
+                .permitAll()
                 .and()
                 .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                // .and()
+                // .csrf().disable() //bara för att komma åt h2-console
+                // .headers().frameOptions().disable()
                 .and()
-                .httpBasic();
+                .httpBasic()
+                .and()
+                .logout()
+                .and()
+                .rememberMe();
     }
 
-    @Override protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
 }

@@ -1,12 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="sv">
+<html lang="sv" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Handlaappen</title>
+    <title>Familjen Rydberg</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
 </head>
 <body>
-Tjohoo!
+
+
+<div class="nav-box">
+<span class="toolbar">
+<a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1 sec:authentication="name">Familjen Rydberg</h1>
+</div>
+<div class="notepad">
+    <ul class="list">
+        <li class="nav-item">
+            <a th:href="@{'/'}">Inköpslistor</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{'/menu/'}">Matplanering</a>
+        </li>
+        <li class="nav-item">
+        <form method="POST" th:action="@{/logout}">
+            <button type="submit" class="link-button">Logga ut</button>
+        </form>
+        </li>
+    </ul>
+</div>
+
 
 </body>
 </html>

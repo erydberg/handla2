@@ -37,8 +37,6 @@ public class MenuController {
     }
 
 
-
-
     @GetMapping("/detail/{id}")
     public String viewDetail(Model model, @PathVariable String id) {
         Menu menu = menuService.getMenu(Integer.parseInt(id));
@@ -58,9 +56,7 @@ public class MenuController {
         Menu menu = new Menu();
         model.addAttribute("menu", menu);
         return "menu-edit";
-
     }
-
 
     //TODO dto-convertering https://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application
     @PostMapping("/save")

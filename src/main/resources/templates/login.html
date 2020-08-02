@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Logga in</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
+</head>
+<body>
+<form name="f" method="POST" th:action="@{/login}"
+      class="form-general">
+    <div class="form-box">
+        <h3>Logga in</h3>
+        <div class="errorblock" th:if="${param.error!=null}">Ops, fel användarnamn eller lösenord</div>
+        <div class="successblock" th:if="${param.logout!=null}">Du har nu loggat ut</div>
+        <label for="username">Användarnamn:</label>
+        <input type="text" name="username" id="username" required autofocus>
+        <label for="password">Lösenord:</label>
+        <input type="password" name="password" id="password"/>
+        <label for="remember-me">
+            <input id="remember-me" name="remember-me" type="checkbox">
+            <span class="remember-me">Kom ihåg min inloggning</span>
+        </label>
+    </div>
+    <input name="submit" type="submit" value="Logga in"/>
+</form>
+</body>
+</html>

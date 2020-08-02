@@ -30,6 +30,7 @@ public class StartController {
         return "start";
     }
 
+    //För utveckling
     @GetMapping("/generateusers")
     public String generateUsers(){
 
@@ -44,7 +45,6 @@ public class StartController {
         User user = User.builder().username("erik").password(losen).enabled(true).build();
         user.addRole(userRole);
         userRepository.save(user);
-
 
         return "klart";
     }
