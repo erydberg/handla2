@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -38,6 +39,10 @@ public class MenuService {
         menuRepository.deleteById(id);
     }
 
+    public List<Menu> getAllPlanned() {
+        return menuRepository.getAllPlanned(LocalDate.now());
+    }
+
     public List<Menu> getAllUnplanned() {
         return menuRepository.getAllUnplanned();
     }
@@ -46,7 +51,11 @@ public class MenuService {
         return menuRepository.getAllFavorites();
     }
 
-    //    public Object getAllPlanned() {
-//        menuRepository.
-//    }
+    public List<Menu> getAllNeverAgain() {
+        return menuRepository.getAllNeverAgain(Sort.by(Sort.Direction.ASC,"title"));
+    }
+
+    public List<Menu> getAllHistory() {
+        return menuRepository.findAll(Sort.by(Sort.Direction.DESC, "dayToEat"));
+    }
 }

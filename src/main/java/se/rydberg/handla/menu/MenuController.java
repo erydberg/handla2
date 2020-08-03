@@ -30,7 +30,7 @@ public class MenuController {
     @GetMapping("/planned")
     public String plannedMenu(Model model) {
         //model.addAttribute("menus", menuService.getAllByDate());
-        model.addAttribute("menus", menuService.getAll());
+        model.addAttribute("menus", menuService.getAllPlanned());
         return "menu-list";
     }
 
@@ -40,10 +40,22 @@ public class MenuController {
         return "menu-unplanned";
     }
 
-    @GetMapping("favorites")
+    @GetMapping("/favorites")
     public String favorites(Model model){
         model.addAttribute("menus", menuService.getAllFavorites());
         return "menu-favorites";
+    }
+
+    @GetMapping("/neveragain")
+    public String neverAgain(Model model){
+        model.addAttribute("menus", menuService.getAllNeverAgain());
+        return "menu-neveragain";
+    }
+
+    @GetMapping("/history")
+    public String history(Model model){
+        model.addAttribute("menus", menuService.getAllHistory());
+        return "menu-history";
     }
 
     @GetMapping("/detail/{id}")
