@@ -29,13 +29,22 @@ public class MenuController {
 
     @GetMapping("/planned")
     public String plannedMenu(Model model) {
-        // Test
-
         //model.addAttribute("menus", menuService.getAllByDate());
         model.addAttribute("menus", menuService.getAll());
         return "menu-list";
     }
 
+    @GetMapping("/unplanned")
+    public String unplannedMenu(Model model){
+        model.addAttribute("menus",menuService.getAllUnplanned());
+        return "menu-unplanned";
+    }
+
+    @GetMapping("favorites")
+    public String favorites(Model model){
+        model.addAttribute("menus", menuService.getAllFavorites());
+        return "menu-favorites";
+    }
 
     @GetMapping("/detail/{id}")
     public String viewDetail(Model model, @PathVariable String id) {

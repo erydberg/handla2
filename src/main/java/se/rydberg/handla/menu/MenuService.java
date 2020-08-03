@@ -38,7 +38,15 @@ public class MenuService {
         menuRepository.deleteById(id);
     }
 
-//    public Object getAllPlanned() {
+    public List<Menu> getAllUnplanned() {
+        return menuRepository.getAllUnplanned();
+    }
+
+    public List<Menu> getAllFavorites() {
+        return menuRepository.getAllFavorites();
+    }
+
+    //    public Object getAllPlanned() {
 //        menuRepository.
 //    }
 }

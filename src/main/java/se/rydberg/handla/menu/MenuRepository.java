@@ -1,16 +1,17 @@
 package se.rydberg.handla.menu;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
+    @Query("SELECT m from Menu m WHERE m.dayToEat is null")
+    List<Menu> getAllUnplanned();
 
-
-
-    //här kan jag lägga till @Query för att göra specialgrejer som inte finns i standard, kan köra nativeQuery=true också
-
-    //@Query()
-
+    @Query("SELECT m from Menu m WHERE m.grade = 'EAT_AGAIN' or m.grade = 'FANTASTIC'")
+    List<Menu> getAllFavorites();
 }

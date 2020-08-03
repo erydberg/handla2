@@ -9,25 +9,29 @@
 <body>
 <div class="nav-box">
 <span class="toolbar">
-<a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
+    <a class="toolitem" th:href="@{'/'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
     <h1>Matplanering</h1>
 </div>
 <div class="notepad">
-<ul class="list">
-    <li class="nav-item">
-        <a th:href="@{'/menu/planned'}">Meny kommande dagar</a>
-    </li>
-    <li class="nav-item">
-        <a th:href="@{'/menu/unplanned'}">Nya recpet att planera in</a>
-    </li>
-    <li class="nav-item">
-        <a th:href="@{'/menu/oldies'}">Gamla godingar</a>
-    </li>
-    <li class="nav-item">
-        <a th:href="@{'/menu/neveragain'}">Kanske aldrig mer</a>
-    </li>
-</ul>
+    <ul class="list">
+        <li class="nav-item">
+            <a th:href="@{'/menu/planned'}">Meny kommande dagar</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{'/menu/unplanned'}">Nya recpet att planera in</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{'/menu/favorites'}">Gamla godingar</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{'/menu/neveragain'}">Kanske aldrig mer</a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{'/menu/history'}">Historieätarnas perspektiv</a>
+        </li>
+    </ul>
 </div>
 </body>
 </html>

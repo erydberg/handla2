@@ -10,7 +10,7 @@
 
 <div class="nav-box">
 <span class="toolbar">
-<a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
+    <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
     <h1 sec:authentication="name">Familjen Rydberg</h1>
 </div>
@@ -23,9 +23,9 @@
             <a th:href="@{'/menu/'}">Matplanering</a>
         </li>
         <li class="nav-item">
-        <form method="POST" th:action="@{/logout}">
-            <button type="submit" class="link-button">Logga ut</button>
-        </form>
+            <form method="POST" th:action="@{/logout}">
+                <button type="submit" class="link-button">Logga ut</button>
+            </form>
         </li>
     </ul>
 </div>

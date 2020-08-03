@@ -3,7 +3,7 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <title>Handlaappen - menyer</title>
+    <title>Favoritrecept</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
 </head>
 <body>
@@ -12,12 +12,12 @@
     <a class="toolitem" th:href="@{'/menu'}"><img th:src="@{/styles/back.png}"></a>
     <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
-    <h1>Planerad meny</h1>
+    <h1>Favoriter - dags för repris?</h1>
 </div>
 <div class="notepad">
     <ul class="list">
             <li  th:each="menu: ${menus}">
-                <a th:href="@{'/menu/detail/' + ${menu.id}}" th:text="${menu.dayToEat + ' ' + menu.title}"></a>
+                <a th:href="@{'/menu/detail/' + ${menu.id}}" th:text="${menu.dayToEat + ' ' + menu.title + ' (' + menu.grade.getDisplayValue() + ')'}"></a>
                 <a th:href="@{'/menu/delete/' + ${menu.id}}" class="del" onclick="return (confirm('Vill du ta bort receptet?'))"/><img th:src="@{/styles/delete.png}"></a>
             </li>
     </ul>
