@@ -19,11 +19,10 @@
     <ul class="list">
         <li th:each="menu: ${menus}">
             <a th:href="@{'/menu/detail/' + ${menu.id}}" th:text="${menu.title}"></a>
-            <a th:href="@{'/menu/delete/' + ${menu.id}}" class="del"
+            <a th:href="@{'/menu/delete/' + ${menu.id} + '?returnview=/menu/unplanned'}" class="del"
                onclick="return (confirm('Vill du ta bort receptet?'))"/><img th:src="@{/styles/delete.png}"></a>
         </li>
     </ul>
 </div>
-
 </body>
 </html>

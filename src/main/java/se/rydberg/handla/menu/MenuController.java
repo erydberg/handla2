@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import javax.validation.Valid;
-
 
 @Controller
 @RequestMapping("/menu")
@@ -29,31 +29,30 @@ public class MenuController {
 
     @GetMapping("/planned")
     public String plannedMenu(Model model) {
-        //model.addAttribute("menus", menuService.getAllByDate());
         model.addAttribute("menus", menuService.getAllPlanned());
-        return "menu-list";
+        return "menu-planned";
     }
 
     @GetMapping("/unplanned")
-    public String unplannedMenu(Model model){
-        model.addAttribute("menus",menuService.getAllUnplanned());
+    public String unplannedMenu(Model model) {
+        model.addAttribute("menus", menuService.getAllUnplanned());
         return "menu-unplanned";
     }
 
     @GetMapping("/favorites")
-    public String favorites(Model model){
+    public String favorites(Model model) {
         model.addAttribute("menus", menuService.getAllFavorites());
         return "menu-favorites";
     }
 
     @GetMapping("/neveragain")
-    public String neverAgain(Model model){
+    public String neverAgain(Model model) {
         model.addAttribute("menus", menuService.getAllNeverAgain());
         return "menu-neveragain";
     }
 
     @GetMapping("/history")
-    public String history(Model model){
+    public String history(Model model) {
         model.addAttribute("menus", menuService.getAllHistory());
         return "menu-history";
     }
@@ -73,29 +72,34 @@ public class MenuController {
     }
 
     @GetMapping("/new")
-    public String createNew(Model model){
+    public String createNew(Model model) {
         Menu menu = new Menu();
         model.addAttribute("menu", menu);
         return "menu-edit";
     }
 
-    //TODO dto-convertering https://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application
+    // TODO dto-convertering https://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application
     @PostMapping("/save")
-    public String save(@Valid Menu menu, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String save(@Valid Menu menu, BindingResult bindingResult, Model model,
+            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("error_message","Har du skrivit in allt du behöver?");
+            redirectAttributes.addFlashAttribute("error_message", "Har du skrivit in allt du behöver?");
             model.addAttribute("menu", menu);
             return "menu-edit";
         } else {
-            redirectAttributes.addFlashAttribute("message","Maträtten är sparad");
+            redirectAttributes.addFlashAttribute("message", "Maträtten är sparad");
             menuService.save(menu);
         }
         return "redirect:/menu/detail/" + menu.getId();
     }
 
     @GetMapping("delete/{id}")
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable String id, @RequestParam(required = false) String returnview) {
         menuService.delete(Integer.parseInt(id));
-        return "redirect:/menu/list";
+        if (isNotEmpty(returnview)){
+            return "redirect:" + returnview;
+        }else{
+            return "redirect:/menu";
+        }
     }
 }
