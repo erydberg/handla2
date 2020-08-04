@@ -24,58 +24,58 @@ public class MenuController {
 
     @GetMapping("")
     public String start() {
-        return "menu-start";
+        return "menu/menu-start";
     }
 
     @GetMapping("/planned")
     public String plannedMenu(Model model) {
         model.addAttribute("menus", menuService.getAllPlanned());
-        return "menu-planned";
+        return "menu/menu-planned";
     }
 
     @GetMapping("/unplanned")
     public String unplannedMenu(Model model) {
         model.addAttribute("menus", menuService.getAllUnplanned());
-        return "menu-unplanned";
+        return "menu/menu-unplanned";
     }
 
     @GetMapping("/favorites")
     public String favorites(Model model) {
         model.addAttribute("menus", menuService.getAllFavorites());
-        return "menu-favorites";
+        return "menu/menu-favorites";
     }
 
     @GetMapping("/neveragain")
     public String neverAgain(Model model) {
         model.addAttribute("menus", menuService.getAllNeverAgain());
-        return "menu-neveragain";
+        return "menu/menu-neveragain";
     }
 
     @GetMapping("/history")
     public String history(Model model) {
         model.addAttribute("menus", menuService.getAllHistory());
-        return "menu-history";
+        return "menu/menu-history";
     }
 
     @GetMapping("/detail/{id}")
     public String viewDetail(Model model, @PathVariable String id) {
         Menu menu = menuService.getMenu(Integer.parseInt(id));
         model.addAttribute("menu", menu);
-        return "menu-detail";
+        return "menu/menu-detail";
     }
 
     @GetMapping("/edit/{id}")
     public String editMenu(Model model, @PathVariable String id) {
         Menu menu = menuService.getMenu(Integer.parseInt(id));
         model.addAttribute("menu", menu);
-        return "menu-edit";
+        return "menu/menu-edit";
     }
 
     @GetMapping("/new")
     public String createNew(Model model) {
         Menu menu = new Menu();
         model.addAttribute("menu", menu);
-        return "menu-edit";
+        return "menu/menu-edit";
     }
 
     // TODO dto-convertering https://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application
@@ -85,7 +85,7 @@ public class MenuController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("error_message", "Har du skrivit in allt du behöver?");
             model.addAttribute("menu", menu);
-            return "menu-edit";
+            return "menu/menu-edit";
         } else {
             redirectAttributes.addFlashAttribute("message", "Maträtten är sparad");
             menuService.save(menu);
