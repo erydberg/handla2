@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**")
                 .permitAll()
                 .and()
-                .formLogin()
+                .formLogin()    
                 .loginPage("/login")
                 .permitAll()
                  .and()

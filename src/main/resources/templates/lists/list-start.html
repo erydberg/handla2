@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Handlaappen</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/lists/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Mina listor</h1>
+</div>
+<div class="notepad">
+    <ul class="list">
+            <li  th:each="shoplist: ${shoplists}">
+                <a th:href="@{'/lists/view/' + ${shoplist.id}}" th:text="${shoplist.title}"></a>
+                <a th:href="@{'/menu/delete/' + ${shoplist.id} + '?returnview=/lists'}" class="del" onclick="return (confirm('Vill du ta bort listan?'))"/><img th:src="@{/styles/delete.png}"></a>
+            </li>
+    </ul>
+</div>
+</body>
+</html>

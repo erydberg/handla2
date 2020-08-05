@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Gamla recept</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/styles/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
 </head>
 <body>
 <div class="nav-box">
 <span class="toolbar">
-    <a class="toolitem" th:href="@{'/menu'}"><img th:src="@{/static/styles/back.png}"></a>
-    <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/static/styles/newlist.png}"></a>
+    <a class="toolitem" th:href="@{'/menu'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
     <h1>Historieätarna besöker oss</h1>
 </div>
@@ -18,7 +18,7 @@
     <ul class="list">
             <li  th:each="menu: ${menus}">
                 <a th:href="@{'/menu/detail/' + ${menu.id}}" th:text="${menu.dayToEat + ' ' + menu.title}"></a>
-                <a th:href="@{'/menu/delete/' + ${menu.id} + '?returnview=/menu/history'}" class="del" onclick="return (confirm('Vill du ta bort receptet?'))"/><img th:src="@{/static/styles/delete.png}"></a>
+                <a th:href="@{'/menu/delete/' + ${menu.id} + '?returnview=/menu/history'}" class="del" onclick="return (confirm('Vill du ta bort receptet?'))"/><img th:src="@{/styles/delete.png}"></a>
             </li>
     </ul>
 </div>

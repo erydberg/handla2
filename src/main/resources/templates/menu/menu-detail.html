@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="'Meny - ' + ${menu.title}"></title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/styles/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
 </head>
 <body>
 <div class="nav-box">
     <span class="toolbar">
-        <a class="toolitem" th:href="@{'/menu'}"><img th:src="@{/static/styles/back.png}"></a>
-        <a class="toolitem" th:href="@{'/menu/edit/' + ${menu.id}}"><img th:src="@{/static/styles/edit2.png}"></a>
-        <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/static/styles/newlist.png}"></a>
+        <a class="toolitem" th:href="@{'/menu'}"><img th:src="@{/styles/back.png}"></a>
+        <a class="toolitem" th:href="@{'/menu/edit/' + ${menu.id}}"><img th:src="@{/styles/edit2.png}"></a>
+        <a class="toolitem" th:href="@{'/menu/new'}"><img th:src="@{/styles/newlist.png}"></a>
     </span>
     <h1 th:text="${menu.title}"></h1>
 </div>

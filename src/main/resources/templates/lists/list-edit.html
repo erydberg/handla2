@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Redigera lista</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+       <a class="toolitem" th:href="@{'/lists'}"><img th:src="@{/styles/back.png}"></a>
+       <a class="toolitem" th:href="@{'/lists/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Planerad meny</h1>
+</div>
+<form id="frmEditMenu" method="post" class="form-general" th:action="@{/lists/save}" th:object="${shoplist}">
+    <div class="form-box">
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="title">Listans namn</label>
+        <input class="input-long" type="text" id="title" placeholder="Skriv in listans namn" th:field="*{title}">
+
+        <div class="submit-area">
+            <button type="submit">Spara</button>
+        </div>
+        </p>
+</form>
+</body>
+</html>
