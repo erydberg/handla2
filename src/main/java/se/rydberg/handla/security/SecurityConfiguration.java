@@ -19,20 +19,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/generateusers")
-                .permitAll()
-                .antMatchers("/menu/*")
-                .hasRole("USER")
+                .antMatchers("/generateusers").permitAll()
+                .antMatchers("/styles/**").permitAll()
+
                 // .anyRequest().authenticated()
-                .antMatchers("/h2-console/**")
-                .permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .and()
-                .formLogin()    
+                .authorizeRequests()
+                    .antMatchers("/menu/**").hasRole("USER")
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                 .and()
-                .csrf().disable() //bara för att komma åt h2-console
-                .headers().frameOptions().disable()
+
+                .and()
+                .csrf()
+                .disable() // bara för att komma åt h2-console
+                .headers()
+                .frameOptions()
+                .disable()
                 .and()
                 .httpBasic()
                 .and()
