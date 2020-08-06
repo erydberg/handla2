@@ -12,13 +12,13 @@
        <a class="toolitem" th:href="@{'/lists'}"><img th:src="@{/styles/back.png}"></a>
        <a class="toolitem" th:href="@{'/lists/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
-    <h1>Planerad meny</h1>
+    <h1>Ny lista</h1>
 </div>
 <form id="frmEditMenu" method="post" class="form-general" th:action="@{/lists/save}" th:object="${shoplist}">
     <div class="form-box">
         <input type="hidden" id="id" th:field="*{id}">
         <label for="title">Listans namn</label>
-        <input class="input-long" type="text" id="title" placeholder="Skriv in listans namn" th:field="*{title}">
+        <input class="input-long" type="text" id="title" placeholder="Skriv in listans namn" th:field="*{title}" autofocus>
 
         <div class="submit-area">
             <button type="submit">Spara</button>

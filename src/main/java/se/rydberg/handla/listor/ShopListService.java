@@ -24,4 +24,12 @@ public class ShopListService {
     public ShopList getShopList(Integer id) {
         return shopListRepository.getOne(id);
     }
+
+    public ShopList getShopListWithArticles(Integer id){
+        return shopListRepository.getShopListWithArticles(id);
+    }
+
+    public void delete(Integer id) {
+        shopListRepository.deleteById(id);
+    }
 }

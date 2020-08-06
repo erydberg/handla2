@@ -4,6 +4,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import se.rydberg.handla.listor.ArticleService;
+import se.rydberg.handla.listor.ShopListService;
 import se.rydberg.handla.menu.MenuService;
 import se.rydberg.handla.menu.TestLoader;
 import se.rydberg.handla.security.Role;
@@ -15,14 +17,21 @@ import se.rydberg.handla.security.UserRepository;
 @RequestMapping("/")
 public class StartController {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private MenuService menuService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public StartController(UserRepository userRepository, RoleRepository roleRepository, MenuService menuService) {
+    //TODO ta bort när vi inte genererar något testdata
+    private final MenuService menuService;
+    private final ArticleService articleService;
+    private final ShopListService shopListService;
+
+    public StartController(UserRepository userRepository, RoleRepository roleRepository, MenuService menuService,
+            ArticleService articleService, ShopListService shopListService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.menuService = menuService;
+        this.articleService = articleService;
+        this.shopListService = shopListService;
     }
 
     @GetMapping("")
@@ -34,8 +43,11 @@ public class StartController {
     @GetMapping("/generateusers")
     public String generateUsers(){
 
-        TestLoader testLoader = new TestLoader(menuService);
+        TestLoader testLoader = new TestLoader(menuService, articleService, shopListService);
         testLoader.loadMenus();
+        testLoader.loadLists();
+
+
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String losen = "{bcrypt}" + bCryptPasswordEncoder.encode("losen");

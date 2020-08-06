@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Controller
 @RequestMapping("lists")
@@ -34,8 +37,8 @@ public class ListController {
             return "lists/list-edit";
         }else{
             redirectAttributes.addFlashAttribute("message", "Listan är skapad");
-            shopListService.save(shopList);
-            return "redirect:/lists/";
+            ShopList savedShoplist = shopListService.save(shopList);
+            return "redirect:/lists/view/" + savedShoplist.getId();
         }
     }
 
@@ -51,5 +54,24 @@ public class ListController {
         ShopList shopList = shopListService.getShopList(Integer.parseInt(id));
         model.addAttribute("shoplist", shopList);
         return "lists/list-edit";
+    }
+
+    @GetMapping("/view/{id}")
+    public String viewShoplist(Model model, @PathVariable String id){
+        ShopList shopList = shopListService.getShopListWithArticles(Integer.parseInt(id));
+        model.addAttribute("shoplist", shopList);
+        Article article = new Article();
+        model.addAttribute("article", article);
+        return "lists/shoplist";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable String id, @RequestParam(required = false) String returnview){
+        shopListService.delete(Integer.parseInt(id));
+        if(isNotEmpty(returnview)){
+            return "redirect:" + returnview;
+        }else{
+            return "redirect:/lists";
+        }
     }
 }

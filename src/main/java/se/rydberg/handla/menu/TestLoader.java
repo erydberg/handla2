@@ -1,6 +1,11 @@
 package se.rydberg.handla.menu;
 
 
+import se.rydberg.handla.listor.Article;
+import se.rydberg.handla.listor.ArticleService;
+import se.rydberg.handla.listor.ShopList;
+import se.rydberg.handla.listor.ShopListService;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +13,13 @@ import java.util.List;
 public class TestLoader {
 
     private final MenuService menuService;
+    private final ArticleService articleService;
+    private final ShopListService shopListService;
 
-    public TestLoader(MenuService menuService){
+    public TestLoader(MenuService menuService, ArticleService articleService, ShopListService shopListService){
         this.menuService = menuService;
+        this.articleService = articleService;
+        this.shopListService = shopListService;
     }
 
     public void loadMenus() {
@@ -41,5 +50,20 @@ public class TestLoader {
         for(Menu menu:menus){
             menuService.save(menu);
         }
+    }
+
+    public void loadLists() {
+        ShopList shopList = ShopList.builder().title("Lista 1").build();
+        ShopList shopList2 = ShopList.builder().title("Lista 2").build();
+        shopListService.save(shopList);
+        shopListService.save(shopList2);
+        Article article = Article.builder().title("Mjölk").shopList(shopList).build();
+        articleService.save(article);
+        Article article1 = Article.builder().title("fil").shopList(shopList).build();
+        articleService.save(article1);
+        Article article2 = Article.builder().title("Något annat").bought(true).shopList(shopList2).build();
+        articleService.save(article2);
+        Article article3 = Article.builder().title("stol").shopList(shopList2).build();
+        articleService.save(article3);
     }
 }

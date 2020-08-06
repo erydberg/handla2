@@ -18,7 +18,7 @@
     <ul class="list">
             <li  th:each="shoplist: ${shoplists}">
                 <a th:href="@{'/lists/view/' + ${shoplist.id}}" th:text="${shoplist.title}"></a>
-                <a th:href="@{'/menu/delete/' + ${shoplist.id} + '?returnview=/lists'}" class="del" onclick="return (confirm('Vill du ta bort listan?'))"/><img th:src="@{/styles/delete.png}"></a>
+                <a th:href="@{'/lists/delete/' + ${shoplist.id} + '?returnview=/lists'}" class="del" onclick="return (confirm('Vill du ta bort listan?'))"/><img th:src="@{/styles/delete.png}"></a>
             </li>
     </ul>
 </div>

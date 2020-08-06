@@ -3,6 +3,7 @@ package se.rydberg.handla.listor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -23,10 +24,14 @@ public class Article {
     @Id
     @GeneratedValue
     private Integer id;
+
     @NotEmpty(message = "Vad vill du skriva upp på listan?")
     private String title;
+
     private boolean bought = false;
+
     @ManyToOne
     @JoinColumn(name = "fk_shoplist")
+    @EqualsAndHashCode.Exclude
     private ShopList shopList;
 }
