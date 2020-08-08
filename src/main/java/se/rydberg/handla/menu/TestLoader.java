@@ -1,10 +1,10 @@
 package se.rydberg.handla.menu;
 
 
-import se.rydberg.handla.listor.Article;
-import se.rydberg.handla.listor.ArticleService;
-import se.rydberg.handla.listor.ShopList;
-import se.rydberg.handla.listor.ShopListService;
+import se.rydberg.handla.lists.Article;
+import se.rydberg.handla.lists.ArticleService;
+import se.rydberg.handla.lists.ShopList;
+import se.rydberg.handla.lists.ShopListService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

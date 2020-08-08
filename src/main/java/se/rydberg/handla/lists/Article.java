@@ -1,4 +1,4 @@
-package se.rydberg.handla.listor;
+package se.rydberg.handla.lists;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

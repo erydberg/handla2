@@ -23,10 +23,13 @@
 </div>
 <div class="notepad">
     <ul class="list">
-        <li th:each="article: ${shoplist.articles}">
-            <span th:text="${article.title} + ' ' + ${article.bought}"></span>
+        <li th:each="article, stat: ${shoplist.articles}">
+            <input type="checkbox" th:name="*{'bought' + stat.index}" th:id="${article.id}" th:checked="${article.bought}">
+            <label th:for="${article.id}" th:text="${article.title}"></label>
+
+
             <a th:href="@{'/article/delete/' + ${article.id} + '?returnview=/menu/unplanned'}" class="del"
-               onclick="return (confirm('Vill du ta bort receptet?'))"/><img th:src="@{/styles/delete.png}"></a>
+               onclick="return (confirm('Vill du ta bort?'))"/><img th:src="@{/styles/delete.png}"></a>
         </li>
     </ul>
 </div>

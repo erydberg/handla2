@@ -1,4 +1,4 @@
-package se.rydberg.handla.listor;
+package se.rydberg.handla.lists;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

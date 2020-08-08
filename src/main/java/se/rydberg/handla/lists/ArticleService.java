@@ -1,4 +1,4 @@
-package se.rydberg.handla.listor;
+package se.rydberg.handla.lists;
 
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,11 @@ public class ArticleService {
     }
 
     public Article save(Article article) {
+        article.setTitle(Sanitize.setCapitalFirstLetter(article.getTitle()));
         return articleRepository.save(article);
     }
 
     public void delete(Integer id) {
         articleRepository.deleteById(id);
     }
-
 }
