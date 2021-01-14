@@ -18,4 +18,8 @@ public class ArticleService {
     public void delete(Integer id) {
         articleRepository.deleteById(id);
     }
+
+    public Article getArticleById(Integer id) {
+        return articleRepository.getOne(id);
+    }
 }

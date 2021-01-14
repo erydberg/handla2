@@ -1,11 +1,15 @@
 package se.rydberg.handla.lists;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -31,5 +35,18 @@ public class ArticleController {
         article.setShopList(shoplist);
         articleService.save(article);
         return "redirect:/lists/view/" + id;
+    }
+
+    //markera köpt/oköpt via restanrop
+    @PutMapping(value="/markbought/{id}/{bought}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void markBoughtStatus(@PathVariable String id, @PathVariable String bought){
+        try {
+            Article article = articleService.getArticleById(Integer.parseInt(id));
+            article.setBought(Boolean.parseBoolean(bought));
+            articleService.save(article);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
