@@ -11,6 +11,7 @@
         /*<![CDATA[*/
         var listid = /*[[${shoplist.id}]]*/ null;
         var boughtUrl = /*[[@{'/article/markbought/'}]]*/ null;
+        var deleteUrl = /*[[@{'/article/delete/'}]]*/ null;
 
         $(document).ready(function () {
             $('input:checkbox').change(function () {
@@ -31,7 +32,7 @@
                 $(this).attr("class","close");
 
                 //lägga till länk för ta bort
-                var delButton = "<a class='delbutton' href='"+ path +"/article/delete/"+ articleId +"/from/"+listid+"'><img src='" + path + "styles/delete.png'></a>";
+                var delButton = "<a class='delbutton' href='"+ deleteUrl + articleId +"/from/"+listid+"'><img src='" + path + "styles/delete.png'></a>";
                 $(delButton).insertAfter(this);
                 //lägga till funktion för edit
                 var editButton = "<img class='editbutton' data-id='"+articleId+"' data-text='"+articleText+"' src='" + path + "styles/edit3.png'>";
@@ -74,7 +75,7 @@
             window.location = window.location.pathname;
         }
         function showEditButtons(articleId){
-            var delButton = "<a class='edittools' href='"+ path +"/article/delete/"+ articleId +"/from/"+listid+"'><img src='" + path + "styles/delete.png'></a>";
+            var delButton = "<a class='edittools' href='"+ deleteUrl + articleId +"/from/"+listid+"'><img src='" + path + "styles/delete.png'></a>";
             var closeButton = "<a class='edittools' href='javascript:closeEditMode("+ articleId + ");'><img src='" + path + "styles/close.png'></a>";
             var editButton = "<a class='edittools' href='javascript:editArticle("+articleId+")'><img src='" + path + "styles/edit3.png'></a>";
             $("#editbutton"+articleId).html(closeButton + editButton + delButton);
@@ -97,7 +98,8 @@
 <div class="nav-box">
 <span class="toolbar">
     <a class="toolitem" th:href="@{'/lists'}"><img th:src="@{/styles/back.png}"></a>
-    <a class="toolitem" th:href="@{'/lists/new'}"><img th:src="@{/styles/newlist.png}"></a>
+    <a class="toolitem" th:href="@{'/lists/deleteboughtarticlesonlist/' + ${shoplist.id}}"><img th:src="@{/styles/list-delete.png}"></a>
+    <a class="toolitem" href="#" onClick="reloadPage();"><img th:src="@{/styles/reload.png}"></a>
 </span>
     <h1 th:text="${shoplist.title}"></h1>
 </div>
