@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -63,13 +62,15 @@ public class ArticleController {
                 if (a.getId().equals(Integer.parseInt(id))) {
                     itt.remove();
                     shopListService.save(shopList);
+                    break;
                 }
             }
-            String redirectUrl = "/lists/view/" + shopList.getId();
+            String redirectUrl = "/lists/view/" + shoplistid;
             return "redirect:" + redirectUrl;
 
         } catch (Exception e) {
             // Lägga på felmeddelande
+            System.out.println("verkar hamna fel när vi tar bort en artikel från en lista");
             return "redirect:/";
         }
     }

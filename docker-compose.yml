@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  handla2-mysql:
+    hostname: handla2-mysql
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=handla
+      - MYSQL_USER=myapp-user
+      - MYSQL_PASSWORD=password
+      - TZ=Europe/Stockholm
+    ports:
+      - 3306:3306
+
+  handla2-app:
+    image: rydberg/handla2:0.0.1-SNAPSHOT
+    restart: on-failure
+    depends_on:
+      - handla2-mysql
+    ports:
+      - 8100:8080
+    environment:
+      - DATABASE_HOST=handla2-mysql
+      - DATABASE_USER=myapp-user
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=handla
+      - DATABASE_PORT=3306
+    links:
+      - handla2-mysql
