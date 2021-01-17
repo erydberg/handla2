@@ -73,24 +73,26 @@ public class MenuController {
 
     @GetMapping("/new")
     public String createNew(Model model) {
-        Menu menu = new Menu();
+        MenuDTO menu = new MenuDTO();
         model.addAttribute("menu", menu);
         return "menu/menu-edit";
     }
 
-    // TODO dto-convertering https://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application
     @PostMapping("/save")
-    public String save(@Valid Menu menu, BindingResult bindingResult, Model model,
+    public String save(@Valid MenuDTO menuDto, BindingResult bindingResult, Model model,
             RedirectAttributes redirectAttributes) {
+        String id;
         if (bindingResult.hasErrors()) {
             model.addAttribute("error_message", "Har du skrivit in allt du behöver?");
-            model.addAttribute("menu", menu);
+            model.addAttribute("menu", menuDto);
             return "menu/menu-edit";
         } else {
             redirectAttributes.addFlashAttribute("message", "Maträtten är sparad");
-            menuService.save(menu);
+            Menu savedMenu = menuService.save(menuDto);
+            id = String.valueOf(savedMenu.getId());
+
         }
-        return "redirect:/menu/detail/" + menu.getId();
+        return "redirect:/menu/detail/" + id;
     }
 
     @GetMapping("delete/{id}")

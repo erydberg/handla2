@@ -20,14 +20,18 @@ public class UserService {
 
     public User savenew(UserDTO userDto) {
         User user = toEntity(userDto);
-        Role role = roleService.getNormalUserRole();
-        user.addRole(role);
-        user.setEnabled(true);
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String losen = "{bcrypt}" + bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(losen);
+        if(user!=null) {
+            Role role = roleService.getNormalUserRole();
+            user.addRole(role);
+            user.setEnabled(true);
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String losen = "{bcrypt}" + bCryptPasswordEncoder.encode(user.getPassword());
+            user.setPassword(losen);
 
-        return userRepository.save(user);
+            return userRepository.save(user);
+        }else{
+            return null;
+        }
     }
 
     public User getUserBy(Long id) {
@@ -42,7 +46,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User toEntity(UserDTO user) {
+    private User toEntity(UserDTO user) {
         if (user != null) {
             return modelMapper.map(user, User.class);
         } else {
@@ -50,7 +54,7 @@ public class UserService {
         }
     }
 
-    public UserDTO toDto(User user){
+    private UserDTO toDto(User user){
         if(user != null){
             return modelMapper.map(user, UserDTO.class);
         }else{

@@ -1,6 +1,6 @@
 package se.rydberg.handla.menu;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +12,17 @@ import java.util.List;
 public class MenuService {
 
     private final MenuRepository menuRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    public MenuService(MenuRepository menuRepository) {
+
+    public MenuService(MenuRepository menuRepository, ModelMapper modelMapper) {
         this.menuRepository = menuRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public Menu save(Menu menu) {
-        return menuRepository.save(menu);
+    public Menu save(MenuDTO menu) {
+        Menu menuEntity = toEntity(menu);
+        return menuRepository.save(menuEntity);
     }
 
     public List<Menu> getAll() {
@@ -57,5 +60,17 @@ public class MenuService {
 
     public List<Menu> getAllHistory() {
         return menuRepository.findAll(Sort.by(Sort.Direction.DESC, "dayToEat"));
+    }
+
+    private Menu toEntity(MenuDTO menuDto){
+        if(menuDto!=null){
+            return modelMapper.map(menuDto, Menu.class);
+        }else{
+            return null;
+        }
+    }
+
+    public Menu saveEntity(Menu menu) {
+        return menuRepository.save(menu);
     }
 }

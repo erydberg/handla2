@@ -48,7 +48,7 @@ public class TestLoader {
         menus.add(menu6);
 
         for(Menu menu:menus){
-            menuService.save(menu);
+            menuService.saveEntity(menu);
         }
     }
 
