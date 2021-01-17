@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Handlaappen - ny användare</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+       <a class="toolitem" th:href="@{'/users'}"><img th:src="@{/styles/back.png}"></a>
+</span>
+    <h1>Lägga till ny användare</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<form id="frmEditMenu" method="post" class="form-general" th:action="@{/users/save}" th:object="${user}" autocomplete="off">
+    <div class="form-box">
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="username">Användarnamn</label>
+        <input class="input-long" type="text" id="username" placeholder="Skriv in ett användarnamn"
+               th:field="*{username}">
+        <label for="password">Lösenord</label>
+        <input class="input-long" type="password" id="password" th:field="*{password}">
+        <div class="submit-area">
+            <button type="submit">Spara</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>

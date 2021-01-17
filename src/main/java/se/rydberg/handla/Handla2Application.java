@@ -1,5 +1,6 @@
 package se.rydberg.handla;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,11 @@ public class Handla2Application {
 	@Bean
 	public SpringSecurityDialect securityDialect(){
 		return new SpringSecurityDialect();
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 
 }

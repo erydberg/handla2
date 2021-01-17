@@ -14,6 +14,12 @@
 </span>
     <h1>Planerad meny</h1>
 </div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
 <form id="frmEditMenu" method="post" class="form-general" th:action="@{/menu/save}" th:object="${menu}">
     <div class="form-box">
         <input type="hidden" id="id" th:field="*{id}">
@@ -40,6 +46,7 @@
             <button type="submit">Spara</button>
         </div>
         </p>
+    </div>
 </form>
 </body>
 </html>

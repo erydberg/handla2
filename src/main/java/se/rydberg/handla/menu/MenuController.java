@@ -83,7 +83,7 @@ public class MenuController {
     public String save(@Valid Menu menu, BindingResult bindingResult, Model model,
             RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("error_message", "Har du skrivit in allt du behöver?");
+            model.addAttribute("error_message", "Har du skrivit in allt du behöver?");
             model.addAttribute("menu", menu);
             return "menu/menu-edit";
         } else {

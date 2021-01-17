@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Handlaappen - användare</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/users/new'}"><img th:src="@{/styles/user.png}"></a>
+</span>
+    <h1>Handlaappens användare</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<div class="notepad">
+    <ul class="list">
+            <li  th:each="user: ${users}">
+                <a th:href="@{'/users/view/' + ${user.id}}" th:text="${user.username}"></a>
+                <a th:href="@{'/users/delete/' + ${user.id}}" class="del" onclick="return (confirm('Vill du ta bort användaren?'))"/><img th:src="@{/styles/delete.png}"></a>
+            </li>
+    </ul>
+</div>
+</body>
+</html>
