@@ -43,9 +43,9 @@ public class StartController {
     @GetMapping("/generateusers")
     public String generateUsers(){
 
-        TestLoader testLoader = new TestLoader(menuService, articleService, shopListService);
-        testLoader.loadMenus();
-        testLoader.loadLists();
+        //TestLoader testLoader = new TestLoader(menuService, articleService, shopListService);
+        //testLoader.loadMenus();
+        //testLoader.loadLists();
 
 
 

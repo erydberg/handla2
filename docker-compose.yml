@@ -20,6 +20,8 @@ services:
       - handla2-mysql
     ports:
       - 8100:8080
+    volumes:
+      - ./db/data:/var/lib/mysql
     environment:
       - DATABASE_HOST=handla2-mysql
       - DATABASE_USER=myapp-user
