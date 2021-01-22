@@ -3,7 +3,7 @@ version: '3'
 services:
   handla2-mysql:
     hostname: handla2-mysql
-    image: mysql:8.0
+    image: mysql/mysql-server:8.0.23
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=handla

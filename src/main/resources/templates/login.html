@@ -2,9 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="sv">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:include="fragments/header :: header"></th:block>
     <title>Logga in</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
 </head>
 <body>
 <form name="f" method="POST" th:action="@{/login}"
