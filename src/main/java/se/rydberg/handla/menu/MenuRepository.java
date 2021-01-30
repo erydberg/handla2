@@ -23,4 +23,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
     @Query("SELECT m from Menu m WHERE m.grade = 'NEVER_EAT_AGAIN'")
     List<Menu> getAllNeverAgain(Sort title);
+
+    @Query("SELECT m from Menu m WHERE m.dayToEat is not null order by m.dayToEat desc")
+    List<Menu> getAllHistory();
 }

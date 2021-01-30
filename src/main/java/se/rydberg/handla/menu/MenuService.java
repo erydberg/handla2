@@ -14,7 +14,6 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final ModelMapper modelMapper;
 
-
     public MenuService(MenuRepository menuRepository, ModelMapper modelMapper) {
         this.menuRepository = menuRepository;
         this.modelMapper = modelMapper;
@@ -55,17 +54,18 @@ public class MenuService {
     }
 
     public List<Menu> getAllNeverAgain() {
-        return menuRepository.getAllNeverAgain(Sort.by(Sort.Direction.ASC,"title"));
+        return menuRepository.getAllNeverAgain(Sort.by(Sort.Direction.ASC, "title"));
     }
 
     public List<Menu> getAllHistory() {
-        return menuRepository.findAll(Sort.by(Sort.Direction.DESC, "dayToEat"));
+        // return menuRepository.findAll(Sort.by(Sort.Direction.DESC, "dayToEat"));
+        return menuRepository.getAllHistory();
     }
 
-    private Menu toEntity(MenuDTO menuDto){
-        if(menuDto!=null){
+    private Menu toEntity(MenuDTO menuDto) {
+        if (menuDto != null) {
             return modelMapper.map(menuDto, Menu.class);
-        }else{
+        } else {
             return null;
         }
     }

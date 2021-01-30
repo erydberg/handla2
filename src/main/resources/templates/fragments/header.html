@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="sv" xmlns:th="http://www.thymeleaf.org">
 <head>
-<th:block th:fragment="header">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-
-    <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
-</th:block>
+    <th:block th:fragment="header">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="apple-touch-icon" th:href="@{/styles/apple-touch-icon.png}"/>
+        <link th:href="@{/styles/favicon.png}" rel="shortcut icon" type="image/png"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>
+    </th:block>
 </head>

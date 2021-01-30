@@ -37,12 +37,13 @@
             <label for="grade">Utvärdering</label>
             <select name="grade" id="grade" th:field="*{grade}">
                 <option th:each="gradeOpt : ${T(se.rydberg.handla.menu.Grade).values()}"
-                        th:value="${gradeOpt}" th:text="${gradeOpt.displayValue}"
+                        th:value="${gradeOpt}" th:text="${gradeOpt.displayValue}">
                 </option>
             </select>
         </fieldset>
         <div class="submit-area">
             <button type="submit">Spara</button>
+            <a th:if="${!#strings.isEmpty(menu.id)}" th:href="@{'/menu/detail/' + ${menu.id}}"> | Avbryt</a>
         </div>
         </p>
     </div>
