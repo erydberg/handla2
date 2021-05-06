@@ -27,6 +27,7 @@
          th:utext="${#strings.replace( #strings.escapeXml( menu.description ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
     <a th:if="${!#strings.isEmpty(menu.descriptionUrl)}" th:href="${menu.descriptionUrl}">Recept</a>
     <p th:text="${menu.grade.getDisplayValue()}"></p>
+    <img th:src="@{'/image/' + ${menu.imageId}}" alt="" />
 </div>
 </body>
 </html>

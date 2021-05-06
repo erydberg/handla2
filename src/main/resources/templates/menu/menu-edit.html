@@ -19,7 +19,7 @@
 <div class="successblock" th:if="${message}">
     <p th:text="${message}"></p>
 </div>
-<form id="frmEditMenu" method="post" class="form-general" th:action="@{/menu/save}" th:object="${menu}">
+<form id="frmEditMenu" method="post" class="form-general" th:action="@{/menu/save}" th:object="${menu}" enctype="multipart/form-data">
     <div class="form-box">
         <input type="hidden" id="id" th:field="*{id}">
         <label for="title">Maträtt</label>
@@ -30,6 +30,12 @@
         <textarea id="description" rows="10" cols="50" th:field="*{description}"></textarea>
         <label for="descriptionUrl">Länk till recept</label>
         <input class="input-long" type="url" id="descriptionUrl" th:field="*{descriptionUrl}">
+
+        <label for="imageupload">Bild på recept</label>
+        <input type="file" id="imageupload" name="imageupload" accept="image/png, image/jpeg" />
+        <img th:src="@{'/image/' + ${menu.imageId}}" alt="" />
+        <input type="hidden" id="imageId" th:field="*{imageId}">
+
         <fieldset>
 
             <label class="label_normal" for="eaten">Ätit</label><input type="checkbox" id="eaten" th:field="*{eaten}"/>

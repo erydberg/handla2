@@ -4,19 +4,24 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.rydberg.handla.image.ImageRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Service
 public class MenuService {
 
     private final MenuRepository menuRepository;
     private final ModelMapper modelMapper;
+    private final ImageRepository imageRepository;
 
-    public MenuService(MenuRepository menuRepository, ModelMapper modelMapper) {
+    public MenuService(MenuRepository menuRepository, ModelMapper modelMapper, ImageRepository imageRepository) {
         this.menuRepository = menuRepository;
         this.modelMapper = modelMapper;
+        this.imageRepository = imageRepository;
     }
 
     public Menu save(MenuDTO menu) {
@@ -33,11 +38,16 @@ public class MenuService {
         return menuRepository.findAll(Sort.by(Sort.Direction.ASC, "dayToEat"));
     }
 
-    public Menu getMenu(Integer id) {
-        return menuRepository.getOne(id);
+    public MenuDTO getMenu(Integer id) {
+        Menu menu = menuRepository.getOne(id);
+        return toDto(menu);
     }
 
     public void delete(Integer id) {
+        MenuDTO menuToDelete = getMenu(Integer.valueOf(id));
+        if(isNotEmpty(menuToDelete.getImageId())){
+            imageRepository.deleteById(menuToDelete.getImageId());
+        }
         menuRepository.deleteById(id);
     }
 
@@ -65,6 +75,14 @@ public class MenuService {
     private Menu toEntity(MenuDTO menuDto) {
         if (menuDto != null) {
             return modelMapper.map(menuDto, Menu.class);
+        } else {
+            return null;
+        }
+    }
+
+    private MenuDTO toDto(Menu menu) {
+        if (menu != null) {
+            return modelMapper.map(menu, MenuDTO.class);
         } else {
             return null;
         }
