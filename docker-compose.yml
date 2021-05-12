@@ -9,7 +9,7 @@ services:
       - MYSQL_DATABASE=handla
       - MYSQL_USER=myapp-user
       - MYSQL_PASSWORD=password
-      - TZ=Europe/Stockholm
+      - TZ=UTC
     ports:
       - 3306:3306
     #volumes:
@@ -28,7 +28,7 @@ services:
       - DATABASE_PASSWORD=password
       - DATABASE_NAME=handla
       - DATABASE_PORT=3306
-      - TZ=Europe/Stockholm
+      - TZ=UTC
       - SPRING_PROFILES_ACTIVE=prod
     links:
       - handla2-mysql
