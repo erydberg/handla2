@@ -97,28 +97,26 @@ public class MenuController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid MenuDTO menuDto, @RequestParam("imageupload") MultipartFile multipartFile,
-            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String save(@Valid MenuDTO menuDto, BindingResult bindingResult, @RequestParam("imageupload") MultipartFile multipartFile,
+             Model model, RedirectAttributes redirectAttributes) {
         String id;
-        if (!multipartFile.isEmpty()) {
-            try {
-                // hitta ett bättre sätt för bildhanteringen
-                //ta bort ev tidigare bild från databasen
-                if(isNotEmpty(menuDto.getImageId())){
-                    imageService.delete(menuDto.getImageId());
-                }
-                MenuImage menuImage = imageService.save(multipartFile);
-                menuDto.setImageId(menuImage.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("error_message", "Har du skrivit in allt du behöver?");
             model.addAttribute("menu", menuDto);
             return "menu/menu-edit";
         } else {
+            if (!multipartFile.isEmpty()) {
+                try {
+                    // hitta ett bättre sätt för bildhanteringen
+                    if (isNotEmpty(menuDto.getImageId())) {
+                        imageService.delete(menuDto.getImageId());
+                    }
+                    MenuImage menuImage = imageService.save(multipartFile);
+                    menuDto.setImageId(menuImage.getId());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             redirectAttributes.addFlashAttribute("message", "Maträtten är sparad");
             Menu savedMenu = menuService.save(menuDto);
             id = String.valueOf(savedMenu.getId());
@@ -127,7 +125,7 @@ public class MenuController {
         return "redirect:/menu/detail/" + id;
     }
 
-    private void handleFileUpload(MenuDTO menuDto){
+    private void handleFileUpload(MenuDTO menuDto) {
 
     }
 

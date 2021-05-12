@@ -33,8 +33,11 @@
 
         <label for="imageupload">Bild på recept</label>
         <input type="file" id="imageupload" name="imageupload" accept="image/png, image/jpeg" />
-        <img th:src="@{'/image/' + ${menu.imageId}}" alt="" />
         <input type="hidden" id="imageId" th:field="*{imageId}">
+        <div th:if="${!#strings.isEmpty(menu.imageId)}">
+            <img th:src="@{'/image/' + ${menu.imageId}}" alt="Bild på recept" />
+        </div>
+
 
         <fieldset>
 

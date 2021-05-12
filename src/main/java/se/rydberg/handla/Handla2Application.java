@@ -18,6 +18,8 @@ public class Handla2Application {
 		return new SpringSecurityDialect();
 	}
 
+
+
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();

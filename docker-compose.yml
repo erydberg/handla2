@@ -12,6 +12,8 @@ services:
       - TZ=Europe/Stockholm
     ports:
       - 3306:3306
+    #volumes:
+    #  - ./db/data:/var/lib/mysql
 
   handla2-app:
     image: rydberg/handla2:0.0.1-SNAPSHOT
@@ -20,13 +22,13 @@ services:
       - handla2-mysql
     ports:
       - 8100:8080
-    volumes:
-      - ./db/data:/var/lib/mysql
     environment:
       - DATABASE_HOST=handla2-mysql
       - DATABASE_USER=myapp-user
       - DATABASE_PASSWORD=password
       - DATABASE_NAME=handla
       - DATABASE_PORT=3306
+      - TZ=Europe/Stockholm
+      - SPRING_PROFILES_ACTIVE=prod
     links:
       - handla2-mysql
