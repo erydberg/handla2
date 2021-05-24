@@ -4,6 +4,29 @@
 <head>
     <th:block th:include="fragments/header :: header"></th:block>
     <title th:text="'Meny - ' + ${menu.title}"></title>
+    <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+    <script th:inline="javascript"> var path = /*[[@{/}]]*/ ''; </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var imageUrl = /*[[@{'/image/'}]]*/ null;
+        var rotateUrl = /*[[@{'/image/rotate/'}]]*/ null;
+
+        function rotatePicture(id) {
+
+            jQuery.ajax({
+                url: rotateUrl + id,
+                type: 'GET',
+
+                success: function (data) {
+                    document.getElementById('showimage').removeAttribute('src');
+                    document.getElementById('showimage').setAttribute('src', imageUrl + data + '?timestamp=' + new Date().getTime());
+                },
+                error: function (errorData) {
+                    alert("Det gick inte att rotera bilden");
+                }
+            })};
+        /*]]>*/
+    </script>
 </head>
 <body>
 <div class="nav-box">
@@ -28,7 +51,10 @@
     <a th:if="${!#strings.isEmpty(menu.descriptionUrl)}" th:href="${menu.descriptionUrl}">Recept</a>
     <p th:text="${menu.grade.getDisplayValue()}"></p>
     <div th:if="${!#strings.isEmpty(menu.imageId)}">
-        <img th:src="@{'/image/' + ${menu.imageId}}" alt="Bild på recept"/>
+        <img id="showimage" th:src="@{'/image/' + ${menu.imageId}}" alt="Bild på recept"/>
+        <br>
+        <a href="#" th:data-id="${menu.imageId}" onclick="rotatePicture(this.getAttribute('data-id'));"><img th:src="@{/styles/rotate_left.png}"></a>
+        <a href="#" th:data-id="${menu.imageId}" onclick="rotatePicture(this.getAttribute('data-id'));"><img th:src="@{/styles/rotate_right.png}"></a>
     </div>
 </div>
 </body>

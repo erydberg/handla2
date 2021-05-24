@@ -8,13 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 
 @Service
 public class ImageService {
@@ -30,12 +28,7 @@ public class ImageService {
 
     public MenuImage save(MultipartFile file) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        //scaleImage(file.getBytes());
-
-        MenuImage image = MenuImage.builder()
-                .name(fileName)
-                .type(file.getContentType())
-                .build();
+        MenuImage image = MenuImage.builder().name(fileName).type(file.getContentType()).build();
         image.setImageData(scaleImage(file.getBytes()));
         return imageRepository.save(image);
     }
@@ -48,12 +41,22 @@ public class ImageService {
         return imageRepository.findAll();
     }
 
+    public MenuImage rotate(MenuImage image) throws IOException {
+        ByteArrayInputStream inputStreamImage = new ByteArrayInputStream(image.getImageData());
+        BufferedImage bufferedImage = ImageIO.read(inputStreamImage);
+        bufferedImage = Scalr.rotate(bufferedImage, Scalr.Rotation.CW_90);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "jpg", baos);
+        image.setImageData(baos.toByteArray());
+        return imageRepository.save(image);
+    }
+
     private static byte[] scaleImage(byte[] originalImage) throws IOException {
         ByteArrayInputStream inputStreamImage = new ByteArrayInputStream(originalImage);
         BufferedImage bufferedImage = ImageIO.read(inputStreamImage);
-        if (bufferedImage.getWidth() > 600) {
-            System.out.println("skalar om");
-            bufferedImage = Scalr.resize(bufferedImage, 600);
+        if (bufferedImage.getWidth() > 800) {
+            bufferedImage = Scalr.resize(bufferedImage, 800);
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "jpg", baos);

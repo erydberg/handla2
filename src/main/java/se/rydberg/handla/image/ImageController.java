@@ -4,6 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,8 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @PostMapping("/upload") public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("imageupload") MultipartFile file) {
+    @PostMapping("/upload")
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("imageupload") MultipartFile file) {
         String message = "";
         try {
             imageService.save(file);
@@ -38,7 +40,8 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/{id}") public ResponseEntity<byte[]> getFile(@PathVariable String id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         MenuImage image = imageService.getImageById(id);
 
         return ResponseEntity.ok()
@@ -46,14 +49,31 @@ public class ImageController {
                 .body(image.getImageData());
     }
 
-    @GetMapping("/getall") public ResponseEntity<List<ImageFileMetaData>> getListFiles() {
+    @GetMapping("/getall")
+    public ResponseEntity<List<ImageFileMetaData>> getListFiles() {
         List<ImageFileMetaData> images = imageService.getAllImages().stream().map(image -> {
-            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/")
-                    .path(String.valueOf(image.getId())).toUriString();
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/image/")
+                    .path(String.valueOf(image.getId()))
+                    .toUriString();
 
-            return new ImageFileMetaData(image.getName(), fileDownloadUri, image.getType(), image.getImageData().length);
+            return new ImageFileMetaData(image.getName(), fileDownloadUri, image.getType(),
+                    image.getImageData().length);
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(images);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseMessage> deleteImage (@PathVariable String id){
+        imageService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Bild borttagen"));
+    }
+
+    @GetMapping("/rotate/{id}")
+    public ResponseEntity<String> rotateImage (@PathVariable String id) throws IOException {
+        MenuImage image = imageService.getImageById(id);
+        MenuImage rotatedImage = imageService.rotate(image);
+        return ResponseEntity.status(HttpStatus.OK).body(rotatedImage.getId());
     }
 }
