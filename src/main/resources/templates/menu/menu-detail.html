@@ -51,9 +51,9 @@
     <a th:if="${!#strings.isEmpty(menu.descriptionUrl)}" th:href="${menu.descriptionUrl}">Recept</a>
     <p th:text="${menu.grade.getDisplayValue()}"></p>
     <div th:if="${!#strings.isEmpty(menu.imageId)}">
+        <div class="image">
         <img id="showimage" th:src="@{'/image/' + ${menu.imageId}}" alt="Bild på recept"/>
-        <br>
-        <a href="#" th:data-id="${menu.imageId}" onclick="rotatePicture(this.getAttribute('data-id'));"><img th:src="@{/styles/rotate_left.png}"></a>
+        </div>
         <a href="#" th:data-id="${menu.imageId}" onclick="rotatePicture(this.getAttribute('data-id'));"><img th:src="@{/styles/rotate_right.png}"></a>
     </div>
 </div>
