@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Redigera kategori</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+       <a class="toolitem" th:href="@{'/lists'}"><img th:src="@{/styles/back.png}"></a>
+       <a class="toolitem" th:href="@{'/lists/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Kategori</h1>
+</div>
+<form id="frmEditMenu" method="post" class="form-general" th:action="@{/category/save}" th:object="${category}">
+    <div class="form-box">
+        <input type="hidden" id="id" th:field="*{id}">
+        <label for="title">Kategori </label>
+        <input class="input-long" type="text" id="title" placeholder="Skriv in namnet på kategorin" th:field="*{title}" autofocus>
+
+        <div class="submit-area">
+            <button type="submit">Spara</button>
+        </div>
+        </p>
+</form>
+</body>
+</html>

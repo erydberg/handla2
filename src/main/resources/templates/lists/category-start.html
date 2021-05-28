@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Handlaappen - kategorier</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/category/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Kategorier</h1>
+</div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<div class="notepad">
+    <ul class="list">
+            <li  th:each="category: ${categories}">
+                <a th:href="@{'/category/edit/' + ${category.id}}" th:text="${category.title}"></a>
+                <a th:href="@{'/category/delete/' + ${category.id} + '?returnview=/category'}" class="del" onclick="return (confirm('Vill du ta bort kategorin?'))"/><img th:src="@{/styles/delete.png}"></a>
+            </li>
+    </ul>
+</div>
+</body>
+</html>
