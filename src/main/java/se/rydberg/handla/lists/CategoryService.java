@@ -45,7 +45,7 @@ public class CategoryService {
     }
 
     public List<CategoryDTO> getAllCategories() {
-        return categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
+        return categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "sortOrder"))
                 .stream()
                 .map((s->modelMapper.map(s, CategoryDTO.class)))
                 .collect(toList());

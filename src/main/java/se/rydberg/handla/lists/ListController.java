@@ -13,15 +13,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Controller
 @RequestMapping("lists")
 public class ListController {
     private final ShopListService shopListService;
+    private final CategoryService categoryService;
 
-    public ListController(ShopListService shopListService) {
+    public ListController(ShopListService shopListService, CategoryService categoryService) {
         this.shopListService = shopListService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("")
@@ -60,10 +64,15 @@ public class ListController {
 
     @GetMapping("/view/{id}")
     public String viewShoplist(Model model, @PathVariable String id) {
-        ShopList shopList = shopListService.getShopListWithArticles(Integer.parseInt(id));
+        ShopList shopList = shopListService.getShopListWithArticlesSortedByCategory(Integer.parseInt(id));
         model.addAttribute("shoplist", shopList);
         Article article = new Article();
         model.addAttribute("article", article);
+
+        if(shopList.isUseCategory()) {
+            List<CategoryDTO> categories = categoryService.getAllCategories();
+            model.addAttribute("categories", categories);
+        }
         return "lists/shoplist";
     }
 

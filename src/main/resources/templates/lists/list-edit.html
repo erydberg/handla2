@@ -18,6 +18,7 @@
         <input type="hidden" id="id" th:field="*{id}">
         <label for="title">Listans namn</label>
         <input class="input-long" type="text" id="title" placeholder="Skriv in listans namn" th:field="*{title}" autofocus>
+        <label for="useCategory">Använd kategorier</label><input type="checkbox" id="useCategory" th:field="*{useCategory}"/>
 
         <div class="submit-area">
             <button type="submit">Spara</button>

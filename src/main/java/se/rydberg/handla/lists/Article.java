@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -34,4 +35,9 @@ public class Article {
     @JoinColumn(name = "fk_shoplist")
     @EqualsAndHashCode.Exclude
     private ShopList shopList;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_category")
+    @EqualsAndHashCode.Exclude
+    private Category category;
 }

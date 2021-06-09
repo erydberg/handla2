@@ -10,4 +10,7 @@ public interface ShopListRepository extends JpaRepository<ShopList, Integer> {
 
     @Query("SELECT s FROM ShopList s left JOIN FETCH s.articles WHERE s.id = (:id)")
     ShopList getShopListWithArticles(@Param("id") Integer id);
+
+    @Query("SELECT s FROM ShopList s left JOIN FETCH s.articles article WHERE s.id = (:id) order by article.category.title ASC")
+    ShopList getShopListWithArticlesSortedByCategory(@Param("id") Integer id);
 }

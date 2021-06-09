@@ -4,8 +4,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -38,6 +43,11 @@ public class ShopListService {
         return shopListRepository.getShopListWithArticles(id);
     }
 
+    public ShopList getShopListWithArticlesSortedByCategory(Integer id) {
+        ShopList shopList = shopListRepository.getShopListWithArticles(id);
+        return sortByCategory(shopList);
+    }
+
     public void delete(Integer id) {
         shopListRepository.deleteById(id);
     }
@@ -57,5 +67,17 @@ public class ShopListService {
             }
         }
         save(shoplist);
+    }
+
+    ShopList sortByCategory(ShopList shopList) {
+        Set<Article> toSort = shopList.getArticles();
+        Comparator<Article> compareArticleCategory = Comparator
+                .comparing(Article::getCategory, Comparator.nullsLast(Comparator.comparingInt(Category::getSortOrder)));
+        Comparator<Article> boughtLast = Comparator.comparing(Article::isBought);
+        shopList.setArticles(
+                toSort.stream()
+                        .sorted(boughtLast.thenComparing(compareArticleCategory))
+                        .collect(Collectors.toCollection(LinkedHashSet::new)));
+        return shopList;
     }
 }

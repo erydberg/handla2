@@ -140,6 +140,20 @@ select {
     padding: 8px;
 }
 
+.category-select{
+
+}
+
+.category-select ul{
+    list-style: none;
+    display: flex;
+    margin-left: 0px;
+}
+
+.category-select li{
+    padding-left: 10px;
+}
+
 .text, .radio, .checkbox, .select {
     margin: 0 0 6px;
 }

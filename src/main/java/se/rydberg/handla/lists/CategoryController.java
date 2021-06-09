@@ -52,4 +52,11 @@ public class CategoryController {
             return "redirect:/category";
         }
     }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable String id){
+        //TODO fundera på relationen här,
+        categoryService.delete(Integer.parseInt(id));
+        return "redirect:/category";
+    }
 }

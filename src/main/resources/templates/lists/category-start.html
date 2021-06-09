@@ -23,7 +23,7 @@
     <ul class="list">
             <li  th:each="category: ${categories}">
                 <a th:href="@{'/category/edit/' + ${category.id}}" th:text="${category.title}"></a>
-                <a th:href="@{'/category/delete/' + ${category.id} + '?returnview=/category'}" class="del" onclick="return (confirm('Vill du ta bort kategorin?'))"/><img th:src="@{/styles/delete.png}"></a>
+                <a th:href="@{'/category/delete/' + ${category.id}}" class="del" onclick="return (confirm('Vill du ta bort kategorin?'))"/><img th:src="@{/styles/delete.png}"></a>
             </li>
     </ul>
 </div>

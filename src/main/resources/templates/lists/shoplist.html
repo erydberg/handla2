@@ -17,78 +17,81 @@
                 if ($(this).prop("checked")) {
                     //do the stuff that you would do when 'checked'
                     var idvalue = $(this).prop('id');
-                    markBoughtArticle(idvalue,'true');
+                    markBoughtArticle(idvalue, 'true');
                     return;
                 }
                 //Here do the stuff you want to do when 'unchecked'
                 var idvalue = $(this).prop('id');
-                markBoughtArticle(idvalue,'false');
+                markBoughtArticle(idvalue, 'false');
             });
-            $('.list').on("click",".edit", function(){
+            $('.list').on("click", ".edit", function () {
                 var articleId = $(this).data('id');
                 var articleText = $(this).prev().text().trim();
                 $(this).attr("src", path + "styles/close.png");
-                $(this).attr("class","close");
+                $(this).attr("class", "close");
 
                 //lägga till länk för ta bort
-                var delButton = "<a class='delbutton' href='"+ deleteUrl + articleId +"/from/"+listid+"'><img src='" + path + "styles/delete.png'></a>";
+                var delButton = "<a class='delbutton' href='" + deleteUrl + articleId + "/from/" + listid + "'><img src='" + path + "styles/delete.png'></a>";
                 $(delButton).insertAfter(this);
                 //lägga till funktion för edit
-                var editButton = "<img class='editbutton' data-id='"+articleId+"' data-text='"+articleText+"' src='" + path + "styles/edit3.png'>";
+                var editButton = "<img class='editbutton' data-id='" + articleId + "' data-text='" + articleText + "' src='" + path + "styles/edit3.png'>";
                 $(editButton).insertAfter(this);
             });
-            $('.list').on("click",".close",function(){
+            $('.list').on("click", ".close", function () {
                 $(this).next('.editbutton').remove();
                 $(this).next('.delbutton').remove();
                 $(this).attr("src", /*[[@{/styles/edit2.png}]]*/);
-                $(this).attr("class","edit");
+                $(this).attr("class", "edit");
                 $('#title').val('');
                 $('#id').val('');
             });
-            $('.list').on("click",".editbutton",function(){
+            $('.list').on("click", ".editbutton", function () {
                 var text = $(this).data('text').trim();
                 var articleId = $(this).data('id');
                 $('#title').val(text);
                 $('#id').val(articleId);
                 $('#title').focus();
             });
-            if(!window.Touch){
+            if (!window.Touch) {
                 $("#title").focus();
             }
         });
 
-        function markBoughtArticle(id, bought){
+        function markBoughtArticle(id, bought) {
             jQuery.ajax({
-                url    : boughtUrl + id + '/' + bought,
-                type   : 'PUT',
+                url: boughtUrl + id + '/' + bought,
+                type: 'PUT',
 
-                success : function(data){
+                success: function (data) {
                     //You handle the response here like displaying in required div etc.
                 },
-                error : function(errorData){
+                error: function (errorData) {
                     alert("Det gick inte att uppdatera markeringen");
                 }
             });
         }
-        function reloadPage(){
+
+        function reloadPage() {
             window.location = window.location.pathname;
         }
-        function showEditButtons(articleId){
-            var delButton = "<a class='edittools' href='"+ deleteUrl + articleId +"/from/"+listid+"'><img src='" + path + "styles/delete.png'></a>";
-            var closeButton = "<a class='edittools' href='javascript:closeEditMode("+ articleId + ");'><img src='" + path + "styles/close.png'></a>";
-            var editButton = "<a class='edittools' href='javascript:editArticle("+articleId+")'><img src='" + path + "styles/edit3.png'></a>";
-            $("#editbutton"+articleId).html(closeButton + editButton + delButton);
+
+        function showEditButtons(articleId) {
+            var delButton = "<a class='edittools' href='" + deleteUrl + articleId + "/from/" + listid + "'><img src='" + path + "styles/delete.png'></a>";
+            var closeButton = "<a class='edittools' href='javascript:closeEditMode(" + articleId + ");'><img src='" + path + "styles/close.png'></a>";
+            var editButton = "<a class='edittools' href='javascript:editArticle(" + articleId + ")'><img src='" + path + "styles/edit3.png'></a>";
+            $("#editbutton" + articleId).html(closeButton + editButton + delButton);
         }
 
-        function closeEditMode(articleId){
-            var editModeButton = "<a class='edit' href='javascript:showEditButtons("+articleId+");''><img src='"+path+"styles/edit2.png'></a>";
-            $("#editbutton"+articleId).html(editModeButton);
+        function closeEditMode(articleId) {
+            var editModeButton = "<a class='edit' href='javascript:showEditButtons(" + articleId + ");''><img src='" + path + "styles/edit2.png'></a>";
+            $("#editbutton" + articleId).html(editModeButton);
         }
 
-        function editArticle(articleId){
+        function editArticle(articleId) {
             //get the text
 
         }
+
         /*]]>*/
     </script>
 
@@ -97,25 +100,34 @@
 <div class="nav-box">
 <span class="toolbar">
     <a class="toolitem" th:href="@{'/lists'}"><img th:src="@{/styles/back.png}"></a>
-    <a class="toolitem" th:href="@{'/lists/deleteboughtarticlesonlist/' + ${shoplist.id}}"><img th:src="@{/styles/list-delete.png}"></a>
+    <a class="toolitem" th:href="@{'/lists/deleteboughtarticlesonlist/' + ${shoplist.id}}"><img
+            th:src="@{/styles/list-delete.png}"></a>
     <a class="toolitem" href="#" onClick="reloadPage();"><img th:src="@{/styles/reload.png}"></a>
 </span>
     <h1 th:text="${shoplist.title}"></h1>
 </div>
 <div>
-    <form id="article" class="addArticle" method="post" th:action="@{'/article/addtolist/'+ ${shoplist.id}}" th:object="${article}">
+    <form id="article" class="addArticle" method="post" th:action="@{'/article/addtolist/'+ ${shoplist.id}}"
+          th:object="${article}">
         <input type="hidden" id="id" th:field="*{id}">
         <input type="text" id="title" class="input-long" th:field="*{title}">
+        <div th:if="${shoplist.useCategory}" class="category-select">
+            <ul>
+                <li th:each="cat: ${categories}">
+                    <input type="radio" th:field="*{category}" th:value="${cat.id}">
+                    <label th:for="${#ids.prev('category')}" th:text="${cat.title}">Värde</label>
+                </li>
+            </ul>
+        </div>
         <button type="submit">Spara</button>
     </form>
 </div>
 <div class="notepad">
     <ul class="list">
         <li th:each="article, stat: ${shoplist.articles}">
-            <input type="checkbox" th:name="*{'bought' + stat.index}" th:id="${article.id}" th:checked="${article.bought}">
+            <input type="checkbox" th:name="*{'bought' + stat.index}" th:id="${article.id}"
+                   th:checked="${article.bought}">
             <label th:for="${article.id}" th:text="${article.title}"></label>
-
-
             <img class="edit" th:data-id="${article.id}" th:src="@{/styles/edit2.png}">
         </li>
     </ul>

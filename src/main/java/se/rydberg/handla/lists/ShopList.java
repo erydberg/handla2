@@ -40,10 +40,11 @@ public class ShopList {
     @JoinColumn(name = "fk_shoplist")
     @EqualsAndHashCode.Exclude
     private Set<Article> articles = new LinkedHashSet<>();
+    private boolean useCategory;
 
     public Set<Article> getArticles(){
         if(articles==null){
-            return new HashSet<>();
+            return new LinkedHashSet<>();
         }else{
             return articles;
         }

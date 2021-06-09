@@ -16,9 +16,10 @@
 <form id="frmEditMenu" method="post" class="form-general" th:action="@{/category/save}" th:object="${category}">
     <div class="form-box">
         <input type="hidden" id="id" th:field="*{id}">
-        <label for="title">Kategori </label>
+        <label for="title">Kategori</label>
         <input class="input-long" type="text" id="title" placeholder="Skriv in namnet på kategorin" th:field="*{title}" autofocus>
-
+        <label for="sortOrder">Sorteringsordning, lägst värde överst</label>
+        <input type="number" id="sortOrder" th:field="*{sortOrder}">
         <div class="submit-area">
             <button type="submit">Spara</button>
         </div>

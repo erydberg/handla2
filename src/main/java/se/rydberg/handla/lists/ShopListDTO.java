@@ -23,6 +23,7 @@ public class ShopListDTO {
     private String title;
     @EqualsAndHashCode.Exclude
     private Set<Article> articles = new LinkedHashSet<>();
+    private boolean useCategory;
 
     public Set<Article> getArticles() {
         if (articles == null) {
