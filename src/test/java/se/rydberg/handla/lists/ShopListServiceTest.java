@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ExtendWith(MockitoExtension.class)
 public class ShopListServiceTest {
     @Mock
@@ -28,7 +30,6 @@ public class ShopListServiceTest {
         ShopList shopList = createShopList();
         ShopList newShopList = shopListService.sortByCategory(shopList);
         newShopList.getArticles().stream().forEach(article -> System.out.println(article.getTitle() + article.isBought()));
-
     }
 
     private ShopList createShopList() {
