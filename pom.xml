@@ -17,6 +17,8 @@
     <properties>
         <java.version>11</java.version>
         <docker.image.prefix>rydberg</docker.image.prefix>
+        <archiva-repository-id>archiva.internal</archiva-repository-id>
+        <archiva-repository-url>http://localhost:8080/repository/internal/</archiva-repository-url>
     </properties>
 
     <dependencies>
@@ -103,6 +105,22 @@
             <artifactId>imgscalr-lib</artifactId>
             <version>4.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.hypersistence</groupId>
+            <artifactId>hypersistence-optimizer</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -134,5 +152,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>archiva.internal</id>
+            <name>Archiva 3rd-party Artifact Repository</name>
+            <url>http://localhost:8080/repository/internal/</url>
+        </repository>
+    </repositories>
 
 </project>
