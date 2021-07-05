@@ -100,6 +100,7 @@
 <div class="nav-box">
 <span class="toolbar">
     <a class="toolitem" th:href="@{'/lists'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/lists/edit/' + ${shoplist.id}}"><img class="edit" th:src="@{/styles/edit2.png}"></a>
     <a class="toolitem" th:href="@{'/lists/deleteboughtarticlesonlist/' + ${shoplist.id}}"><img
             th:src="@{/styles/list-delete.png}"></a>
     <a class="toolitem" href="#" onClick="reloadPage();"><img th:src="@{/styles/reload.png}"></a>
@@ -111,6 +112,7 @@
           th:object="${article}">
         <input type="hidden" id="id" th:field="*{id}">
         <input type="text" id="title" class="input-long" th:field="*{title}">
+
         <div th:if="${shoplist.useCategory}" class="category-select">
             <ul>
                 <li th:each="cat: ${categories}">
