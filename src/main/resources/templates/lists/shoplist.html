@@ -113,14 +113,14 @@
         <input type="hidden" id="id" th:field="*{id}">
         <input type="text" id="title" class="input-long" th:field="*{title}">
 
+        <!--new-->
         <div th:if="${shoplist.useCategory}" class="category-select">
-            <ul>
-                <li th:each="cat: ${categories}">
-                    <input type="radio" th:field="*{category}" th:value="${cat.id}">
-                    <label th:for="${#ids.prev('category')}" th:text="${cat.title}">Värde</label>
-                </li>
-            </ul>
+            <select name="category" id="category" th:field="*{category}">
+                <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.title}">Värde</option>
+            </select>
         </div>
+
+
         <button type="submit">Spara</button>
     </form>
 </div>
