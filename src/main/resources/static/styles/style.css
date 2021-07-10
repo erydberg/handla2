@@ -140,9 +140,8 @@ select {
     padding: 8px;
 }
 
-.category-select{
+#category{
     font-size: medium;
-
 }
 
 .category-select ul{
