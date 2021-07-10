@@ -51,19 +51,4 @@ public class TestLoader {
             menuService.saveEntity(menu);
         }
     }
-
-    public void loadLists() {
-        ShopList shopList = ShopList.builder().title("Lista 1").build();
-        ShopList shopList2 = ShopList.builder().title("Lista 2").build();
-        shopListService.save(shopList);
-        shopListService.save(shopList2);
-        Article article = Article.builder().title("Mjölk").shopList(shopList).build();
-        articleService.save(article);
-        Article article1 = Article.builder().title("fil").shopList(shopList).build();
-        articleService.save(article1);
-        Article article2 = Article.builder().title("Något annat").bought(true).shopList(shopList2).build();
-        articleService.save(article2);
-        Article article3 = Article.builder().title("stol").shopList(shopList2).build();
-        articleService.save(article3);
-    }
 }

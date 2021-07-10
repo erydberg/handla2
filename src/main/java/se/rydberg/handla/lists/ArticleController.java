@@ -25,15 +25,21 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
+
     @PostMapping("/addtolist/{id}")
-    public String addToShoplist(@Valid Article article, @PathVariable String id, BindingResult bindingResult,
+    public String addToShoplist(@Valid ArticleDTO articleDto, BindingResult bindingResult, @PathVariable String id,
             Model model, RedirectAttributes redirectAttributes) {
-        ShopList shoplist = shopListService.getShopList(Integer.parseInt(id));
-        if (shoplist == null) {
-            // TODO felmeddelande tillbaka till listan
+        ShopList shopEntity = shopListService.getShopEntity(Integer.parseInt(id));
+        if (shopEntity == null) {
+            redirectAttributes.addAttribute("error_message", "Kan inte hitta listan i systemet");
+            return "error/general_error";
         }
-        article.setShopList(shoplist);
-        articleService.save(article);
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addAttribute("error_message","Skriv in något att handla");
+        }else {
+            articleDto.setShopList(shopEntity);
+            articleService.save(articleDto);
+        }
         return "redirect:/lists/view/" + id;
     }
 
@@ -42,7 +48,7 @@ public class ArticleController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void markBoughtStatus(@PathVariable String id, @PathVariable String bought) {
         try {
-            Article article = articleService.getArticleById(Integer.parseInt(id));
+            ArticleDTO article = articleService.getArticleById(Integer.parseInt(id));
             article.setBought(Boolean.parseBoolean(bought));
             articleService.save(article);
         } catch (Exception e) {
@@ -52,16 +58,16 @@ public class ArticleController {
 
     @RequestMapping("/delete/{id}/from/{shoplistid}")
     public String deleteArticle(@PathVariable String id, @PathVariable String shoplistid) {
-        ShopList shopList = null;
+        ShopListDTO shopListDTO = null;
         // hitta rätt artikel i shoplist
         try {
-            shopList = shopListService.getShopListById(Integer.parseInt(shoplistid));
-            Iterator<Article> itt = shopList.getArticles().iterator();
+            shopListDTO = shopListService.getShopListById(Integer.parseInt(shoplistid));
+            Iterator<Article> itt = shopListDTO.getArticles().iterator();
             while (itt.hasNext()) {
                 Article a = itt.next();
                 if (a.getId().equals(Integer.parseInt(id))) {
                     itt.remove();
-                    shopListService.save(shopList);
+                    shopListService.save(shopListDTO);
                     break;
                 }
             }

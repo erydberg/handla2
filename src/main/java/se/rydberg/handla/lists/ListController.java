@@ -35,16 +35,34 @@ public class ListController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid ShopList shopList, BindingResult bindingResult, Model model,
+    public String save(@Valid ShopListDTO shopListDTO, BindingResult bindingResult, Model model,
             RedirectAttributes redirectAttributes) {
+        System.out.println("id: " + shopListDTO.getId());
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("error_message", "Har du fyllt i allt du behöver?");
-            model.addAttribute("shoplist", shopList);
+            model.addAttribute("shoplist", shopListDTO);
             return "lists/list-edit";
         } else {
-            redirectAttributes.addFlashAttribute("message", "Listan är skapad");
-            ShopList savedShoplist = shopListService.save(shopList);
-            return "redirect:/lists/view/" + savedShoplist.getId();
+            Integer savedListId;
+            if (shopListDTO.getId() != null) {
+                System.out.println("uppdaterar");
+                ShopListDTO backendList = shopListService.getShopListById(shopListDTO.getId());
+                backendList.setTitle(shopListDTO.getTitle());
+                backendList.setUseCategory(shopListDTO.isUseCategory());
+                ShopList updatedShopList = shopListService.save(backendList);
+                savedListId = updatedShopList.getId();
+                redirectAttributes.addFlashAttribute("message", "Listan är uppdaterad");
+            } else {
+                System.out.println("ny lista");
+                ShopList newShopList = shopListService.save(shopListDTO);
+                savedListId = newShopList.getId();
+                redirectAttributes.addFlashAttribute("message", "Listan är skapad");
+            }
+            if (savedListId > 0) {
+                return "redirect:/lists/view/" + savedListId;
+            } else {
+                return "redirect:/lists/";
+            }
         }
     }
 
@@ -57,7 +75,7 @@ public class ListController {
 
     @GetMapping("/edit/{id}")
     public String editList(Model model, @PathVariable String id) {
-        ShopList shopList = shopListService.getShopList(Integer.parseInt(id));
+        ShopListDTO shopList = shopListService.getShopListById(Integer.parseInt(id));
         model.addAttribute("shoplist", shopList);
         return "lists/list-edit";
     }
@@ -65,15 +83,20 @@ public class ListController {
     @GetMapping("/view/{id}")
     public String viewShoplist(Model model, @PathVariable String id) {
         ShopList shopList = shopListService.getShopListWithArticlesSortedByCategory(Integer.parseInt(id));
-        model.addAttribute("shoplist", shopList);
-        Article article = new Article();
-        model.addAttribute("article", article);
+        if (shopList == null) {
+            model.addAttribute("error_message", "Listan finns inte i systemet");
+            return "error/general_error";
+        } else {
+            model.addAttribute("shoplist", shopList);
+            ArticleDTO article = new ArticleDTO();
+            model.addAttribute("article", article);
 
-        if(shopList.isUseCategory()) {
-            List<CategoryDTO> categories = categoryService.getAllCategories();
-            model.addAttribute("categories", categories);
+            if (shopList.isUseCategory()) {
+                List<CategoryDTO> categories = categoryService.getAllCategories();
+                model.addAttribute("categories", categories);
+            }
+            return "lists/shoplist";
         }
-        return "lists/shoplist";
     }
 
     @GetMapping("/delete/{id}")

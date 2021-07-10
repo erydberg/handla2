@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -31,43 +30,60 @@ public class ShopListService {
                 .collect(toList());
     }
 
-    public ShopList save(ShopList shopList) {
+    public ShopList save(ShopListDTO shopListDTO) {
+        var shopListEntity = toEntity(shopListDTO);
+        return shopListRepository.save(shopListEntity);
+    }
+
+    private ShopList saveEntity(ShopList shopList){
         return shopListRepository.save(shopList);
     }
 
-    public ShopList getShopList(Integer id) {
+
+    public ShopList getShopEntity(Integer id) {
         return shopListRepository.getOne(id);
     }
+
 
     public ShopList getShopListWithArticles(Integer id) {
         return shopListRepository.getShopListWithArticles(id);
     }
 
     public ShopList getShopListWithArticlesSortedByCategory(Integer id) {
-        ShopList shopList = shopListRepository.getShopListWithArticles(id);
-        return sortByCategory(shopList);
+        var shopList = shopListRepository.getShopListWithArticles(id);
+        if(shopList!=null) {
+            return sortByCategory(shopList);
+        }else{
+            return null;
+        }
     }
 
     public void delete(Integer id) {
         shopListRepository.deleteById(id);
     }
 
-    public ShopList getShopListById(Integer id) {
+    public ShopListDTO getShopListById(Integer id) {
+        ShopList shopListEntity = shopListRepository.getOne(id);
+        return toDto(shopListEntity);
+    }
+
+    private ShopList getShopListEntityById(Integer id){
         return shopListRepository.getOne(id);
     }
 
     public void deleteBoughtArticlesFromShopListWithId(Integer id) {
         ShopList shoplist;
-        shoplist = getShopListById(id);
+        shoplist = getShopListEntityById(id);
         Iterator<Article> itt = shoplist.getArticles().iterator();
         while (itt.hasNext()) {
-            Article article = itt.next();
+            var article = itt.next();
             if (article.isBought()) {
                 itt.remove();
             }
         }
-        save(shoplist);
+        saveEntity(shoplist);
     }
+
 
     ShopList sortByCategory(ShopList shopList) {
         Set<Article> toSort = shopList.getArticles();
@@ -79,5 +95,21 @@ public class ShopListService {
                         .sorted(boughtLast.thenComparing(compareArticleCategory))
                         .collect(Collectors.toCollection(LinkedHashSet::new)));
         return shopList;
+    }
+
+    private ShopList toEntity(ShopListDTO shopListDTO) {
+        if(shopListDTO !=null){
+            return modelMapper.map(shopListDTO, ShopList.class);
+        }else{
+            return null;
+        }
+    }
+
+    private ShopListDTO toDto(ShopList shopList){
+        if(shopList != null){
+            return modelMapper.map(shopList, ShopListDTO.class);
+        }else{
+            return null;
+        }
     }
 }

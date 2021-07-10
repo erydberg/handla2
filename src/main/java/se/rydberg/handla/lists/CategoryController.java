@@ -29,6 +29,7 @@ public class CategoryController {
     @GetMapping("/new")
     public String createNew(Model model){
         CategoryDTO category = new CategoryDTO();
+        category.setSortOrder(categoryService.getNextSortOrder());
         model.addAttribute("category", category);
         return "lists/category-edit";
     }

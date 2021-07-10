@@ -107,6 +107,12 @@
 </span>
     <h1 th:text="${shoplist.title}"></h1>
 </div>
+<div class="errorblock" th:if="${error_message}">
+    <p th:text="${error_message}"></p>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
 <div>
     <form id="article" class="addArticle" method="post" th:action="@{'/article/addtolist/'+ ${shoplist.id}}"
           th:object="${article}">
@@ -116,6 +122,7 @@
         <!--new-->
         <div th:if="${shoplist.useCategory}" class="category-select">
             <select name="category" id="category" th:field="*{category}">
+                <option value="">Välj kategori om möjligt...</option>
                 <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.title}">Värde</option>
             </select>
         </div>

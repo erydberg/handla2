@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="sv">
+<head>
+    <th:block th:include="fragments/header :: header"></th:block>
+    <title>Handlaappen</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/'}"><img th:src="@{/styles/back.png}"></a>
+    <a class="toolitem" th:href="@{'/lists/new'}"><img th:src="@{/styles/newlist.png}"></a>
+</span>
+    <h1>Något gick fel</h1>
+</div>
+<p th:text="${error_message}"></p>
+<a th:href="@{'/'}">Gå tillbaka till startmenyn</a>
+</body>
+</html>

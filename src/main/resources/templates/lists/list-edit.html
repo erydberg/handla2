@@ -11,7 +11,7 @@
        <a class="toolitem" th:href="@{'/lists'}"><img th:src="@{/styles/back.png}"></a>
        <a class="toolitem" th:href="@{'/lists/new'}"><img th:src="@{/styles/newlist.png}"></a>
 </span>
-    <h1>Ny lista</h1>
+    <h1>Redigera lista</h1>
 </div>
 <form id="frmEditMenu" method="post" class="form-general" th:action="@{/lists/save}" th:object="${shoplist}">
     <div class="form-box">
@@ -24,6 +24,7 @@
             <button type="submit">Spara</button>
         </div>
         </p>
+    </div>
 </form>
 </body>
 </html>
