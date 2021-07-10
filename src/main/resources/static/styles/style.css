@@ -141,6 +141,7 @@ select {
 }
 
 .category-select{
+    font-size: medium;
 
 }
 
@@ -253,7 +254,7 @@ input[type="checkbox"] {
   padding: 10px;
   }
   .notepad .list li label{
-  	margin-right:20%;
+  	margin-right:2%;
   }
 .notepad .list li:hover {
   background-color: #f0f0f0;

@@ -37,7 +37,6 @@ public class ListController {
     @PostMapping("/save")
     public String save(@Valid ShopListDTO shopListDTO, BindingResult bindingResult, Model model,
             RedirectAttributes redirectAttributes) {
-        System.out.println("id: " + shopListDTO.getId());
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("error_message", "Har du fyllt i allt du behöver?");
             model.addAttribute("shoplist", shopListDTO);
@@ -45,7 +44,6 @@ public class ListController {
         } else {
             Integer savedListId;
             if (shopListDTO.getId() != null) {
-                System.out.println("uppdaterar");
                 ShopListDTO backendList = shopListService.getShopListById(shopListDTO.getId());
                 backendList.setTitle(shopListDTO.getTitle());
                 backendList.setUseCategory(shopListDTO.isUseCategory());
@@ -53,7 +51,6 @@ public class ListController {
                 savedListId = updatedShopList.getId();
                 redirectAttributes.addFlashAttribute("message", "Listan är uppdaterad");
             } else {
-                System.out.println("ny lista");
                 ShopList newShopList = shopListService.save(shopListDTO);
                 savedListId = newShopList.getId();
                 redirectAttributes.addFlashAttribute("message", "Listan är skapad");

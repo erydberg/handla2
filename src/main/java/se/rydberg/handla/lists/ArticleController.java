@@ -37,6 +37,10 @@ public class ArticleController {
         if(bindingResult.hasErrors()){
             redirectAttributes.addAttribute("error_message","Skriv in något att handla");
         }else {
+            if(articleDto.getId()!=null){
+                ArticleDTO backendArticle = articleService.getArticleById(articleDto.getId());
+                articleDto.setCategory(backendArticle.getCategory());
+            }
             articleDto.setShopList(shopEntity);
             articleService.save(articleDto);
         }
