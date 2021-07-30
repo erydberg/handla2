@@ -67,6 +67,12 @@
         <input class="input-long" type="text" id="title" placeholder="Skriv in maträttens namn" th:field="*{title}">
         <label for="dayToEat">Dag</label>
         <input type="date" id="dayToEat" th:field="*{dayToEat}">
+        <div>
+        <span th:each="time:${T(se.rydberg.handla.menu.FoodTime).values()}">
+            <input type="radio" th:field="*{foodTime}" th:value="${time}">
+            <label class="label_normal" th:for="${#ids.prev('foodTime')}" th:text="${time.displayValue}">Mattillfälle</label>
+        </span>
+        </div>
         <label for="description">Beskrivning</label>
         <textarea id="description" rows="10" cols="50" th:field="*{description}"></textarea>
         <label for="descriptionUrl">Länk till recept</label>
@@ -84,9 +90,6 @@
         </div>
 
         <fieldset>
-
-            <label class="label_normal" for="eaten">Ätit</label><input type="checkbox" id="eaten" th:field="*{eaten}"/>
-
             <label for="grade">Utvärdering</label>
             <select name="grade" id="grade" th:field="*{grade}">
                 <option th:each="gradeOpt : ${T(se.rydberg.handla.menu.Grade).values()}"

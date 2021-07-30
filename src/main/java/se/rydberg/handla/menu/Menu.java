@@ -45,6 +45,6 @@ public class Menu {
     private String descriptionUrl;
     @Enumerated(EnumType.STRING)
     private Grade grade = Grade.UN_GRADED;
-    private boolean eaten;
     private String imageId;
+    private FoodTime foodTime;
 }

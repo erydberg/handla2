@@ -17,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

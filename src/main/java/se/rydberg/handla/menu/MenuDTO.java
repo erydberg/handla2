@@ -26,6 +26,20 @@ public class MenuDTO {
     @URL(message = "Länken behöver vara korrekt")
     private String descriptionUrl;
     private Grade grade = Grade.UN_GRADED;
-    private boolean eaten;
     private String imageId;
+    private FoodTime foodTime;
+
+    public String displayFoodTime(){
+        if(foodTime==null){
+            return "";
+        }
+        return foodTime.getDisplayValue();
+    }
+
+    public String displayFoodTimeList(){
+        if(foodTime==null){
+            return "";
+        }
+        return "(" + foodTime.getDisplayValue() + ")";
+    }
 }

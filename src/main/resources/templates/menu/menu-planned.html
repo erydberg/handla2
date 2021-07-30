@@ -16,7 +16,7 @@
 <div class="notepad">
     <ul class="list">
             <li  th:each="menu: ${menus}">
-                <a th:href="@{'/menu/detail/' + ${menu.id}}" th:text="${menu.dayToEat + ' ' + menu.title}"></a>
+                <a th:href="@{'/menu/detail/' + ${menu.id}}" th:text="${menu.dayToEat + ' ' + menu.title}"></a> <span th:text="${menu.displayFoodTimeList()}"></span>
                 <a th:href="@{'/menu/delete/' + ${menu.id} + '?returnview=/menu/planned'}" class="del" onclick="return (confirm('Vill du ta bort receptet?'))"/><img th:src="@{/styles/delete.png}"></a>
             </li>
     </ul>

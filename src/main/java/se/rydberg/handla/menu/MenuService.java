@@ -8,6 +8,7 @@ import se.rydberg.handla.image.ImageRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -45,14 +46,17 @@ public class MenuService {
 
     public void delete(Integer id) {
         MenuDTO menuToDelete = getMenu(Integer.valueOf(id));
-        if(isNotEmpty(menuToDelete.getImageId())){
+        if (isNotEmpty(menuToDelete.getImageId())) {
             imageRepository.deleteById(menuToDelete.getImageId());
         }
         menuRepository.deleteById(id);
     }
 
-    public List<Menu> getAllPlanned() {
-        return menuRepository.getAllPlanned(LocalDate.now());
+    public List<MenuDTO> getAllPlanned() {
+        return menuRepository.getAllPlanned(LocalDate.now())
+                .stream()
+                .map(menu -> modelMapper.map(menu, MenuDTO.class))
+                .collect(Collectors.toList());
     }
 
     public List<Menu> getAllUnplanned() {

@@ -45,7 +45,7 @@
 </div>
 <div class="form-box">
     <h2 th:text="${menu.title}"></h2>
-    <div th:text="${menu.dayToEat}"></div>
+    <div th:text="${menu.dayToEat + ' ' + menu.displayFoodTime()}"></div>
     <div class="description"
          th:utext="${#strings.replace( #strings.escapeXml( menu.description ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
     <a th:if="${!#strings.isEmpty(menu.descriptionUrl)}" th:href="${menu.descriptionUrl}">Recept</a>
