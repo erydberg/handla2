@@ -48,4 +48,14 @@ public class ShopList {
             return articles;
         }
     }
+
+    public void addArticle(Article article){
+        articles.add(article);
+        article.setShopList(this);
+    }
+
+    public void removeArticle(Article article){
+        articles.remove(article);
+        article.setShopList(null);
+    }
 }

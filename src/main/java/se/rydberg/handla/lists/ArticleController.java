@@ -41,6 +41,7 @@ public class ArticleController {
                 ArticleDTO backendArticle = articleService.getArticleById(articleDto.getId());
                 articleDto.setCategory(backendArticle.getCategory());
             }
+
             articleDto.setShopList(shopEntity);
             articleService.save(articleDto);
         }
