@@ -59,21 +59,33 @@ public class MenuService {
                 .collect(Collectors.toList());
     }
 
-    public List<Menu> getAllUnplanned() {
-        return menuRepository.getAllUnplanned();
+    public List<MenuDTO> getAllUnplanned() {
+        return menuRepository.getAllUnplanned()
+                .stream()
+                .map(menu -> modelMapper.map(menu, MenuDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<Menu> getAllFavorites() {
-        return menuRepository.getAllFavorites();
+    public List<MenuDTO> getAllFavorites() {
+        return menuRepository.getAllFavorites()
+                .stream()
+                .map(menu -> modelMapper.map(menu, MenuDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<Menu> getAllNeverAgain() {
-        return menuRepository.getAllNeverAgain(Sort.by(Sort.Direction.ASC, "title"));
+    public List<MenuDTO> getAllNeverAgain() {
+        return menuRepository.getAllNeverAgain(Sort.by(Sort.Direction.ASC, "title"))
+                .stream()
+                .map(menu -> modelMapper.map(menu, MenuDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<Menu> getAllHistory() {
+    public List<MenuDTO> getAllHistory() {
         // return menuRepository.findAll(Sort.by(Sort.Direction.DESC, "dayToEat"));
-        return menuRepository.getAllHistory();
+        return menuRepository.getAllHistory()
+                .stream()
+                .map(menu -> modelMapper.map(menu, MenuDTO.class))
+                .collect(Collectors.toList());
     }
 
     private Menu toEntity(MenuDTO menuDto) {
