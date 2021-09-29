@@ -10,7 +10,7 @@
     </parent>
     <groupId>se.rydberg</groupId>
     <artifactId>handla2</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <name>handla2</name>
     <description>Handla-app med meny</description>
 
