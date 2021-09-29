@@ -20,6 +20,8 @@
         <input class="input-long" type="text" id="title" placeholder="Skriv in namnet på kategorin" th:field="*{title}" autofocus>
         <label for="sortOrder">Sorteringsordning, lägst värde överst</label>
         <input type="number" id="sortOrder" th:field="*{sortOrder}">
+        <label for="color">Färg</label>
+        <input class="input" type="text" id="color" placeholder="Skriv in en färg för kateogrin (visas i kanten av listan)" th:field="*{color}">
         <div class="submit-area">
             <button type="submit">Spara</button>
         </div>

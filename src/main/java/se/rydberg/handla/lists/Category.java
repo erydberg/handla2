@@ -27,6 +27,9 @@ public class Category {
 
     private int sortOrder;
 
+    private String color;
 
-
+    public String getCss() {
+        return "border-left:5px solid " + (color == null ? "grey" : color);
+    }
 }

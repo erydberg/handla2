@@ -18,4 +18,5 @@ public class CategoryDTO {
     @NotEmpty(message = "Ett namn på kategorin behövs")
     private String title;
     private int sortOrder;
+    private String color;
 }
