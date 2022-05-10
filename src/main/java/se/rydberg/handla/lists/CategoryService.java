@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.*;
-
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
@@ -18,10 +16,14 @@ public class CategoryService {
         this.modelMapper = modelMapper;
     }
 
+    public Category saveEntity(Category category){
+        category.setTitle(Sanitize.setCapitalFirstLetter(category.getTitle()));
+        return categoryRepository.save(category);
+    }
+
     public Category save(CategoryDTO categoryDto) {
-        categoryDto.setTitle(Sanitize.setCapitalFirstLetter(categoryDto.getTitle()));
         Category categoryEntity = toEntity(categoryDto);
-        return categoryRepository.save(categoryEntity);
+        return saveEntity(categoryEntity);
     }
 
     public void delete(Integer id) {
@@ -29,7 +31,7 @@ public class CategoryService {
     }
 
     public CategoryDTO getCategoryById(Integer id) {
-        Category category = categoryRepository.getOne(id);
+        Category category = categoryRepository.getById(id);
         return toDto(category);
     }
 
@@ -37,7 +39,8 @@ public class CategoryService {
         return categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "sortOrder"))
                 .stream()
                 .map((s -> modelMapper.map(s, CategoryDTO.class)))
-                .collect(toList());
+                .toList();
+
     }
 
     public int getNextSortOrder() {
@@ -68,6 +71,5 @@ public class CategoryService {
         } else {
             return null;
         }
-
     }
 }

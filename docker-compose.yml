@@ -16,7 +16,7 @@ services:
     #  - ./db/data:/var/lib/mysql
 
   handla2-app:
-    image: rydberg/handla2:0.0.4-SNAPSHOT
+    image: rydberg/handla2:2.2.0-SNAPSHOT
     restart: on-failure
     depends_on:
       - handla2-mysql

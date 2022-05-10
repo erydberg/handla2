@@ -1,4 +1,5 @@
-FROM adoptopenjdk/openjdk13
+#FROM adoptopenjdk/openjdk13
+FROM bellsoft/liberica-openjre-alpine:17.0.3
 VOLUME /tmp
 ARG JAR_FILE
 ADD ${JAR_FILE} app.jar

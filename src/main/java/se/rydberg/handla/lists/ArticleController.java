@@ -1,5 +1,6 @@
 package se.rydberg.handla.lists;
 
+import org.owasp.encoder.Encode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,37 +14,60 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Iterator;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
     private final ShopListService shopListService;
     private final ArticleService articleService;
+    private final CategoryHintService categoryHintService;
 
-    public ArticleController(ShopListService shopListService, ArticleService articleService) {
+    public ArticleController(ShopListService shopListService, ArticleService articleService, CategoryHintService categoryHintService) {
         this.shopListService = shopListService;
         this.articleService = articleService;
+        this.categoryHintService = categoryHintService;
     }
 
 
     @PostMapping("/addtolist/{id}")
     public String addToShoplist(@Valid ArticleDTO articleDto, BindingResult bindingResult, @PathVariable String id,
-            Model model, RedirectAttributes redirectAttributes) {
+                                Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addAttribute("error_message", "Skriv in något att handla");
+            return "redirect:/lists/view/" + id;
+        }
+        articleDto.setTitle(Encode.forHtml(articleDto.getTitle()));
         ShopList shopEntity = shopListService.getShopEntity(Integer.parseInt(id));
         if (shopEntity == null) {
             redirectAttributes.addAttribute("error_message", "Kan inte hitta listan i systemet");
             return "error/general_error";
         }
-        if(bindingResult.hasErrors()){
-            redirectAttributes.addAttribute("error_message","Skriv in något att handla");
-        }else {
-            if(articleDto.getId()!=null && articleDto.getCategory()==null){
-                ArticleDTO backendArticle = articleService.getArticleById(articleDto.getId());
-                articleDto.setCategory(backendArticle.getCategory());
+        //testar om artikeln är ny och det ska sättas en kategori
+        if (articleDto.getId() == null && shopEntity.isUseCategory()) {
+            if(articleDto.getCategory()!=null){
+                categoryHintService.findOrCreateHint(articleDto.getTitle(), articleDto.getCategory());
             }
-            articleDto.setShopList(shopEntity);
-            articleService.save(articleDto);
+            if(articleDto.getCategory()==null){
+                //leta efter en kategori
+                Optional<Category> foundCategory = categoryHintService.findCategoryFor(articleDto.getTitle());
+                if(foundCategory.isPresent()){
+                    articleDto.setCategory(foundCategory.get());
+                }else{
+                    //välj kategori i någon dialog i gui-t?
+
+                }
+            }
         }
+
+        if (articleDto.getId() != null && shopEntity.isUseCategory() && articleDto.getCategory() == null) {
+            ArticleDTO backendArticle = articleService.getArticleById(articleDto.getId());
+            articleDto.setCategory(backendArticle.getCategory());
+        }
+
+        articleDto.setShopList(shopEntity);
+        articleService.save(articleDto);
+
         return "redirect:/lists/view/" + id;
     }
 
