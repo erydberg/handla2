@@ -1,6 +1,7 @@
-#FROM adoptopenjdk/openjdk13
 FROM bellsoft/liberica-openjre-alpine:17.0.3
 VOLUME /tmp
+RUN addgroup -S springbootapp && adduser -S handla2 -G springbootapp
+USER handla2
 ARG JAR_FILE
 ADD ${JAR_FILE} app.jar
 ENV TZ=Europe/Stockholm
