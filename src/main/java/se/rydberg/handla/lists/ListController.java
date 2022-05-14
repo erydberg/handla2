@@ -1,5 +1,6 @@
 package se.rydberg.handla.lists;
 
+import org.owasp.encoder.Encode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -99,8 +100,9 @@ public class ListController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable String id, @RequestParam(required = false) String returnview) {
         shopListService.delete(Integer.parseInt(id));
-        if (isNotEmpty(returnview)) {
-            return "redirect:" + returnview;
+        String returnViewEncoded = Encode.forHtml(returnview);
+        if (ReturnViewValidator.validate(returnViewEncoded)) {
+            return "redirect:" + returnViewEncoded;
         } else {
             return "redirect:/lists";
         }

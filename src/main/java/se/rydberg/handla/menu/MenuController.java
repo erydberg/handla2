@@ -1,27 +1,20 @@
 package se.rydberg.handla.menu;
 
-import org.apache.commons.lang3.ArrayUtils;
+import org.owasp.encoder.Encode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se.rydberg.handla.image.ImageService;
 import se.rydberg.handla.image.MenuImage;
-
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.springframework.util.StringUtils.*;
+import se.rydberg.handla.lists.ReturnViewValidator;
 
 import javax.validation.Valid;
-import java.awt.*;
 import java.io.IOException;
-import java.util.Base64;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Controller
 @RequestMapping("/menu")
@@ -132,8 +125,9 @@ public class MenuController {
     @GetMapping("delete/{id}")
     public String delete(@PathVariable String id, @RequestParam(required = false) String returnview) {
         menuService.delete(Integer.parseInt(id));
-        if (isNotEmpty(returnview)) {
-            return "redirect:" + returnview;
+        String returnViewEncoded = Encode.forHtml(returnview);
+        if (ReturnViewValidator.validate(returnViewEncoded)) {
+            return "redirect:" + returnViewEncoded;
         } else {
             return "redirect:/menu";
         }
