@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import se.rydberg.handla.lists.ArticleService;
 import se.rydberg.handla.lists.ShopListService;
 import se.rydberg.handla.menu.MenuService;
-import se.rydberg.handla.menu.TestLoader;
 import se.rydberg.handla.security.Role;
 import se.rydberg.handla.security.RoleRepository;
-import se.rydberg.handla.security.User;
+import se.rydberg.handla.security.HandlaUser;
 import se.rydberg.handla.security.UserRepository;
 
 @Controller
@@ -54,9 +53,9 @@ public class StartController {
         Role userRole = new Role("ROLE_USER");
         roleRepository.save(userRole);
 
-        User user = User.builder().username("erik").password(losen).enabled(true).build();
-        user.addRole(userRole);
-        userRepository.save(user);
+        HandlaUser handlaUser = HandlaUser.builder().username("erik").password(losen).enabled(true).build();
+        handlaUser.addRole(userRole);
+        userRepository.save(handlaUser);
 
         return "klart";
     }

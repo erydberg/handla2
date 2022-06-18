@@ -33,12 +33,13 @@ public class ArticleController {
     @PostMapping("/addtolist/{id}")
     public String addToShoplist(@Valid ArticleDTO articleDto, BindingResult bindingResult, @PathVariable String id,
                                 Model model, RedirectAttributes redirectAttributes) {
+        int listId = Integer.parseInt(Encode.forJava(id));
         if (bindingResult.hasErrors()) {
             redirectAttributes.addAttribute("error_message", "Skriv in något att handla");
-            return "redirect:/lists/view/" + id;
+            return "redirect:/lists/view/" + listId;
         }
         articleDto.setTitle(Encode.forHtml(articleDto.getTitle()));
-        ShopList shopEntity = shopListService.getShopEntity(Integer.parseInt(id));
+        ShopList shopEntity = shopListService.getShopEntity(listId);
         if (shopEntity == null) {
             redirectAttributes.addAttribute("error_message", "Kan inte hitta listan i systemet");
             return "error/general_error";
@@ -68,7 +69,7 @@ public class ArticleController {
         articleDto.setShopList(shopEntity);
         articleService.save(articleDto);
 
-        return "redirect:/lists/view/" + id;
+        return "redirect:/lists/view/" + listId;
     }
 
     // markera köpt/oköpt via restanrop
@@ -86,21 +87,22 @@ public class ArticleController {
 
     @RequestMapping("/delete/{id}/from/{shoplistid}")
     public String deleteArticle(@PathVariable String id, @PathVariable String shoplistid) {
-        ShopListDTO shopListDTO = null;
+        ShopListDTO shopListDTO;
         // hitta rätt artikel i shoplist
+        int listId = Integer.parseInt(Encode.forJava(shoplistid));
+        int articleId = Integer.parseInt(Encode.forJava(id));
         try {
-            shopListDTO = shopListService.getShopListById(Integer.parseInt(shoplistid));
+            shopListDTO = shopListService.getShopListById(listId);
             Iterator<Article> itt = shopListDTO.getArticles().iterator();
             while (itt.hasNext()) {
                 Article a = itt.next();
-                if (a.getId().equals(Integer.parseInt(id))) {
+                if (a.getId().equals(articleId)) {
                     itt.remove();
                     shopListService.save(shopListDTO);
                     break;
                 }
             }
-            String redirectUrl = "/lists/view/" + shoplistid;
-            return "redirect:" + redirectUrl;
+            return "redirect:/lists/view/" + listId;
 
         } catch (Exception e) {
             // Lägga på felmeddelande

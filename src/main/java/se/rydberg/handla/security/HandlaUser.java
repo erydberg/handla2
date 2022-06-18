@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User implements UserDetails {
+public class HandlaUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_sequence")
     @SequenceGenerator(name = "user_sequence", sequenceName = "USER_SEQUENCE")

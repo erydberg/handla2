@@ -18,23 +18,23 @@ public class UserService {
         this.modelMapper = modelMapper;
     }
 
-    public User savenew(UserDTO userDto) {
-        User user = toEntity(userDto);
-        if(user!=null) {
+    public HandlaUser savenew(UserDTO userDto) {
+        HandlaUser handlaUser = toEntity(userDto);
+        if(handlaUser !=null) {
             Role role = roleService.getNormalUserRole();
-            user.addRole(role);
-            user.setEnabled(true);
+            handlaUser.addRole(role);
+            handlaUser.setEnabled(true);
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            String losen = "{bcrypt}" + bCryptPasswordEncoder.encode(user.getPassword());
-            user.setPassword(losen);
+            String losen = "{bcrypt}" + bCryptPasswordEncoder.encode(handlaUser.getPassword());
+            handlaUser.setPassword(losen);
 
-            return userRepository.save(user);
+            return userRepository.save(handlaUser);
         }else{
             return null;
         }
     }
 
-    public User getUserBy(Long id) {
+    public HandlaUser getUserBy(Long id) {
         return userRepository.getOne(id);
     }
 
@@ -42,21 +42,21 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public List<User> getAllUsers() {
+    public List<HandlaUser> getAllUsers() {
         return userRepository.findAll();
     }
 
-    private User toEntity(UserDTO user) {
+    private HandlaUser toEntity(UserDTO user) {
         if (user != null) {
-            return modelMapper.map(user, User.class);
+            return modelMapper.map(user, HandlaUser.class);
         } else {
             return null;
         }
     }
 
-    private UserDTO toDto(User user){
-        if(user != null){
-            return modelMapper.map(user, UserDTO.class);
+    private UserDTO toDto(HandlaUser handlaUser){
+        if(handlaUser != null){
+            return modelMapper.map(handlaUser, UserDTO.class);
         }else{
             return null;
         }

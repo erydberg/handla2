@@ -40,8 +40,8 @@ public class UserController {
             model.addAttribute("user", userDto);
             return "users/user-edit";
         }else{
-            User savedUser = userService.savenew(userDto);
-            redirectAttributes.addFlashAttribute("message", "Användare " + savedUser.getUsername() + " skapad.");
+            HandlaUser savedHandlaUser = userService.savenew(userDto);
+            redirectAttributes.addFlashAttribute("message", "Användare " + savedHandlaUser.getUsername() + " skapad.");
             return "redirect:/users";
         }
     }

@@ -50,13 +50,11 @@
         <span th:text="${menu.dayToEat}"></span>
         <span th:text="${' ' + menu.displayFoodTime()}"></span>
     </div>
-    <div class="description"
-         th:utext="${#strings.replace( #strings.escapeXml( menu.description ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+    <div class="description" style="white-space: pre-line" th:text="${menu.description}"></div>
     <a th:if="${!#strings.isEmpty(menu.descriptionUrl)}" th:href="${menu.descriptionUrl}">Recept</a>
 
-
-
     <p th:text="${menu.grade.getDisplayValue()}"></p>
+
     <div th:if="${!#strings.isEmpty(menu.imageId)}">
         <div class="image">
             <img id="showimage" th:src="@{'/image/' + ${menu.imageId}}" alt="Bild på recept"/>

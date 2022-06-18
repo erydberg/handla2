@@ -18,7 +18,7 @@
 <div class="successblock" th:if="${message}">
     <p th:text="${message}"></p>
 </div>
-<form id="frmEditMenu" method="post" class="form-general" th:action="@{/users/save}" th:object="${user}" autocomplete="off">
+<form id="frmEditMenu" method="post" class="form-general" th:action="@{/users/save}" th:object="${handlaUser}" autocomplete="off">
     <div class="form-box">
         <input type="hidden" id="id" th:field="*{id}">
         <label for="username">Användarnamn</label>

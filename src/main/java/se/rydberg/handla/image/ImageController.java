@@ -1,5 +1,6 @@
 package se.rydberg.handla.image;
 
+import org.owasp.encoder.Encode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +73,8 @@ public class ImageController {
 
     @GetMapping("/rotate/{id}")
     public ResponseEntity<String> rotateImage (@PathVariable String id) throws IOException {
-        MenuImage image = imageService.getImageById(id);
+        String imageId = Encode.forJava(id);
+        MenuImage image = imageService.getImageById(imageId);
         MenuImage rotatedImage = imageService.rotate(image);
         return ResponseEntity.status(HttpStatus.OK).body(rotatedImage.getId());
     }

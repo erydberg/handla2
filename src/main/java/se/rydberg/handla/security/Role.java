@@ -25,5 +25,5 @@ public class Role {
     @NonNull
     private String name;
     @ManyToMany(mappedBy = "roles")
-    private Collection<User> users;
+    private Collection<HandlaUser> handlaUsers;
 }

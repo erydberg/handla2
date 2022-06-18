@@ -110,7 +110,8 @@ public class ListController {
 
     @RequestMapping(value = "/deleteboughtarticlesonlist/{id}", method = RequestMethod.GET)
     public String deleteBoughtArticlesFromListWithId(@PathVariable String id) {
-        shopListService.deleteBoughtArticlesFromShopListWithId(Integer.parseInt(id));
-        return "redirect:/lists/view/" + id;
+        int listId = Integer.parseInt(Encode.forJava(id));
+        shopListService.deleteBoughtArticlesFromShopListWithId(listId);
+        return "redirect:/lists/view/" + listId;
     }
 }

@@ -40,7 +40,7 @@ public class MenuService {
     }
 
     public MenuDTO getMenu(Integer id) {
-        Menu menu = menuRepository.getOne(id);
+        Menu menu = menuRepository.getReferenceById(id);
         return toDto(menu);
     }
 
