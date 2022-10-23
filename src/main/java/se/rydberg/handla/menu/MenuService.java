@@ -88,6 +88,14 @@ public class MenuService {
                 .collect(Collectors.toList());
     }
 
+    public List<MenuDTO> search(String searchTerm) {
+        System.out.println("Söker");
+        return menuRepository.searchTitleAndDescription(searchTerm)
+                .stream()
+                .map(menu -> modelMapper.map(menu, MenuDTO.class))
+                .collect(Collectors.toList());
+    }
+
     private Menu toEntity(MenuDTO menuDto) {
         if (menuDto != null) {
             return modelMapper.map(menuDto, Menu.class);
