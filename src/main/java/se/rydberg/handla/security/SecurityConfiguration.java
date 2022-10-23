@@ -36,8 +36,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
 
                 .and()
-                .csrf()
-                .disable() // bara för att komma åt h2-console
                 .headers()
                 .frameOptions()
                 .disable()

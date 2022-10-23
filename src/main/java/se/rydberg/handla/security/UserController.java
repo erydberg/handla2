@@ -33,6 +33,13 @@ public class UserController {
         return "users/user-edit";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editUser(@PathVariable String id, Model model) {
+        UserDTO user = userService.getUserBy(Long.parseLong(id));
+        model.addAttribute("user",user);
+        return "users/user-edit";
+    }
+
     @PostMapping("/save")
     public String save(@Valid UserDTO userDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
         if(bindingResult.hasErrors()){

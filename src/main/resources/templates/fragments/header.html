@@ -6,6 +6,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
         <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+        <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
         <link rel="apple-touch-icon" th:href="@{/styles/apple-touch-icon.png}"/>
         <link th:href="@{/styles/favicon.png}" rel="shortcut icon" type="image/png"/>
         <link rel="stylesheet" type="text/css" th:href="@{/styles/style.css}"/>

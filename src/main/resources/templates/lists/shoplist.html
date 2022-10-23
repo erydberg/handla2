@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="sv">
+<html xmlns:th="http://www.thymeleaf.org" lang="sv">
 <head>
     <th:block th:include="fragments/header :: header"></th:block>
     <title>Handlaappen</title>
@@ -11,6 +10,8 @@
         var listid = /*[[${shoplist.id}]]*/ null;
         var boughtUrl = /*[[@{'/article/markbought/'}]]*/ null;
         var deleteUrl = /*[[@{'/article/delete/'}]]*/ null;
+        var token = $('#_csrf').attr('content');
+        var header = $('#_csrf_header').attr('content');
 
         $(document).ready(function () {
             $('input:checkbox').change(function () {
@@ -61,6 +62,9 @@
             jQuery.ajax({
                 url: boughtUrl + id + '/' + bought,
                 type: 'PUT',
+                 beforeSend: function(xhr) {
+                            xhr.setRequestHeader(header, token);
+                  },
 
                 success: function (data) {
                     //You handle the response here like displaying in required div etc.

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="sv">
+<html xmlns:th="http://www.thymeleaf.org" lang="sv">
 <head>
     <th:block th:include="fragments/header :: header"></th:block>
     <title>Handlaappen - ny användare</title>
@@ -18,7 +17,7 @@
 <div class="successblock" th:if="${message}">
     <p th:text="${message}"></p>
 </div>
-<form id="frmEditMenu" method="post" class="form-general" th:action="@{/users/save}" th:object="${handlaUser}" autocomplete="off">
+<form id="frmEditMenu" method="post" class="form-general" th:action="@{/users/save}" th:object="${user}" autocomplete="off">
     <div class="form-box">
         <input type="hidden" id="id" th:field="*{id}">
         <label for="username">Användarnamn</label>

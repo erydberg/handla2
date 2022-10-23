@@ -34,9 +34,11 @@ public class UserService {
         }
     }
 
-    public HandlaUser getUserBy(Long id) {
-        return userRepository.getOne(id);
+    public UserDTO getUserBy(Long id) {
+        HandlaUser user = userRepository.getReferenceById(id);
+        return toDto(user);
     }
+
 
     public void delete(Long id) {
         userRepository.deleteById(id);
