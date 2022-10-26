@@ -23,7 +23,6 @@ public class ShopListServiceTest {
     ShopListService shopListService;
 
 
-
     @Test
     public void shouldSort(){
         shopListService = new ShopListService(shopListRepository, modelMapper);

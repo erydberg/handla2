@@ -34,6 +34,10 @@ public class MenuService {
         return menuRepository.findAll();
     }
 
+    public void deleteAll() {
+        menuRepository.deleteAll();
+    }
+
     @Transactional(readOnly = true)
     public List<Menu> getAllByDate() {
         return menuRepository.findAll(Sort.by(Sort.Direction.ASC, "dayToEat"));
@@ -89,7 +93,6 @@ public class MenuService {
     }
 
     public List<MenuDTO> search(String searchTerm) {
-        System.out.println("Söker");
         return menuRepository.searchTitleAndDescription(searchTerm)
                 .stream()
                 .map(menu -> modelMapper.map(menu, MenuDTO.class))
