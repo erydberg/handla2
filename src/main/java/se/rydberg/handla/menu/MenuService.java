@@ -34,6 +34,10 @@ public class MenuService {
         return menuRepository.findAll();
     }
 
+    public void deleteAll() {
+        menuRepository.deleteAll();
+    }
+
     @Transactional(readOnly = true)
     public List<Menu> getAllByDate() {
         return menuRepository.findAll(Sort.by(Sort.Direction.ASC, "dayToEat"));
@@ -83,6 +87,13 @@ public class MenuService {
     public List<MenuDTO> getAllHistory() {
         // return menuRepository.findAll(Sort.by(Sort.Direction.DESC, "dayToEat"));
         return menuRepository.getAllHistory()
+                .stream()
+                .map(menu -> modelMapper.map(menu, MenuDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<MenuDTO> search(String searchTerm) {
+        return menuRepository.searchTitleAndDescription(searchTerm)
                 .stream()
                 .map(menu -> modelMapper.map(menu, MenuDTO.class))
                 .collect(Collectors.toList());

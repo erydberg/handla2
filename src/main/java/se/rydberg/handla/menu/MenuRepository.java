@@ -26,4 +26,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
     @Query("SELECT m from Menu m WHERE m.dayToEat is not null order by m.dayToEat desc")
     List<Menu> getAllHistory();
+
+    @Query("SELECT m from Menu m WHERE m.title LIKE %:searchTerm% or m.description LIKE %:searchTerm%")
+    List<Menu> searchTitleAndDescription(@Param("searchTerm") String searchTerm);
 }
