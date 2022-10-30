@@ -13,10 +13,16 @@
 </span>
     <h1>Historieätarna besöker oss</h1>
 </div>
+<div>
+    <form id="search" class="addArticle" method="get" th:action="@{'/menu/search/'}">
+        <input type="text" id="searchWord" name="searchWord" class="input-long" th:value="${searchWord}">
+        <button type="submit">Sök i recept</button>
+    </form>
+</div>
 <div class="notepad">
     <ul class="list">
             <li  th:each="menu: ${menus}">
-                <a th:href="@{'/menu/detail/' + ${menu.id}}" th:text="${menu.dayToEat + ' ' + menu.title}"></a>
+                <a th:href="@{'/menu/detail/' + ${menu.id}}"><span th:text="${menu.dayToEat} ?: ''"></span> <span th:text="${menu.title}"></span></a>
                 <a th:href="@{'/menu/delete/' + ${menu.id} + '?returnview=/menu/history'}" class="del" onclick="return (confirm('Vill du ta bort receptet?'))"/><img th:src="@{/styles/delete.png}"></a>
             </li>
     </ul>

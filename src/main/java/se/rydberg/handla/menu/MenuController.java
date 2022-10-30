@@ -33,6 +33,24 @@ public class MenuController {
         return "menu/menu-start";
     }
 
+    @GetMapping("/search/")
+    public String searchMenuGET(Model model, @RequestParam String searchWord) {
+        String search = Encode.forJava(searchWord);
+        model.addAttribute("menus", menuService.search(search));
+        model.addAttribute("searchWord", search);
+        return "menu/menu-history";
+    }
+
+    @PostMapping("/search")
+    public String searchMenu(@RequestParam("searchWord") String searchWord, Model model) {
+        String search = Encode.forJava(searchWord);
+        model.addAttribute("menus", menuService.search(search));
+        model.addAttribute("searchWord", searchWord);
+        return "menu/menu-history";
+
+
+    }
+
     @GetMapping("/planned")
     public String plannedMenu(Model model) {
         model.addAttribute("menus", menuService.getAllPlanned());
