@@ -35,7 +35,7 @@ public class MenuController {
 
     @GetMapping("/search/")
     public String searchMenuGET(Model model, @RequestParam String searchWord) {
-        String search = Encode.forJava(searchWord);
+        String search = Encode.forHtml(searchWord);
         model.addAttribute("menus", menuService.search(search));
         model.addAttribute("searchWord", search);
         return "menu/menu-history";
@@ -43,7 +43,7 @@ public class MenuController {
 
     @PostMapping("/search")
     public String searchMenu(@RequestParam("searchWord") String searchWord, Model model) {
-        String search = Encode.forJava(searchWord);
+        String search = Encode.forHtml(searchWord);
         model.addAttribute("menus", menuService.search(search));
         model.addAttribute("searchWord", searchWord);
         return "menu/menu-history";
