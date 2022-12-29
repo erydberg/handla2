@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="sv" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="fragments/header :: header"></th:block>
+    <th:block th:insert="~{fragments/header :: header}"></th:block>
     <title>Familjen Rydberg</title>
 </head>
 <body>
@@ -15,16 +15,16 @@
 <div class="notepad">
     <ul class="list">
         <li class="nav-item">
-            <a th:href="@{'/lists/'}">Listor</a>
+            <a th:href="@{'/lists'}">Listor</a>
         </li>
         <li class="nav-item">
-            <a th:href="@{'/menu/'}">Matplanering</a>
+            <a th:href="@{'/menu'}">Matplanering</a>
         </li>
         <li class="nav-item">
-            <a th:href="@{'/category/'}">Kategorier</a>
+            <a th:href="@{'/category'}">Kategorier</a>
         </li>
         <li class="nav-item">
-            <a th:href="@{'/users/'}">Användare</a>
+            <a th:href="@{'/users'}">Användare</a>
         </li>
         <li class="nav-item">
             <form method="POST" th:action="@{/logout}">

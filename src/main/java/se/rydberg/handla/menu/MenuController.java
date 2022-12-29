@@ -11,7 +11,7 @@ import se.rydberg.handla.image.ImageService;
 import se.rydberg.handla.image.MenuImage;
 import se.rydberg.handla.lists.ReturnViewValidator;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.io.IOException;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;

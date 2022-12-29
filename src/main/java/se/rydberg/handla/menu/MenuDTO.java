@@ -3,8 +3,8 @@ package se.rydberg.handla.menu;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter

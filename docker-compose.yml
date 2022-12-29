@@ -12,11 +12,13 @@ services:
       - TZ=UTC
     ports:
       - 3306:3306
+    networks:
+      - handla
     #volumes:
     #  - ./db/data:/var/lib/mysql
 
   handla2-app:
-    image: rydberg/handla2:2.2.1-SNAPSHOT
+    image: rydberg/handla2:3.0.0
     restart: on-failure
     depends_on:
       - handla2-mysql
@@ -30,5 +32,11 @@ services:
       - DATABASE_PORT=3306
       - TZ=UTC
       - SPRING_PROFILES_ACTIVE=prod
+    networks:
+      - handla
     links:
       - handla2-mysql
+
+networks:
+  handla: {}
+
