@@ -1,22 +1,15 @@
 package se.rydberg.handla.lists;
 
+import jakarta.validation.Valid;
 import org.owasp.encoder.Encode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.validation.Valid;
-
 import java.util.List;
-
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("lists")
@@ -37,7 +30,7 @@ public class ListController {
 
     @PostMapping("/save")
     public String save(@Valid ShopListDTO shopListDTO, BindingResult bindingResult, Model model,
-            RedirectAttributes redirectAttributes) {
+                       RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("error_message", "Har du fyllt i allt du behöver?");
             model.addAttribute("shoplist", shopListDTO);
@@ -81,20 +74,24 @@ public class ListController {
     @GetMapping("/view/{id}")
     public String viewShoplist(Model model, @PathVariable String id) {
         ShopList shopList = shopListService.getShopListWithArticlesSortedByCategory(Integer.parseInt(id));
+
         if (shopList == null) {
             model.addAttribute("error_message", "Listan finns inte i systemet");
             return "error/general_error";
-        } else {
-            model.addAttribute("shoplist", shopList);
-            ArticleDTO article = new ArticleDTO();
-            model.addAttribute("article", article);
-
-            if (shopList.isUseCategory()) {
-                List<CategoryDTO> categories = categoryService.getAllCategories();
-                model.addAttribute("categories", categories);
-            }
-            return "lists/shoplist";
         }
+
+        model.addAttribute("shoplist", shopList);
+        ArticleDTO article;
+        ArticleDTO articleToCategorize = (ArticleDTO) model.getAttribute("articleToCategorize");
+        article = Objects.requireNonNullElseGet(articleToCategorize, ArticleDTO::new);
+
+        model.addAttribute("article", article);
+
+        if (shopList.isUseCategory()) {
+            List<CategoryDTO> categories = categoryService.getAllCategories();
+            model.addAttribute("categories", categories);
+        }
+        return "lists/shoplist";
     }
 
     @GetMapping("/delete/{id}")

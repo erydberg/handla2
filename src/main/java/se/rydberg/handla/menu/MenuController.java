@@ -84,7 +84,6 @@ public class MenuController {
     @GetMapping("/detail/{id}")
     public String viewDetail(Model model, @PathVariable String id) {
         MenuDTO menu = menuService.getMenu(Integer.parseInt(id));
-        System.out.println("meny " + menu);
 
         // if(ArrayUtils.isNotEmpty(menu.getImage())){
         // System.out.println("bild: " + menu.getImage().length);

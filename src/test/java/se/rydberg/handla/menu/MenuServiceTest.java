@@ -30,7 +30,6 @@ public class MenuServiceTest {
     public void shouldSaveMenu() {
         MenuDTO menu = MenuDTO.builder().title("Matförslag").description("Detta är en maträtt").build();
         menuService.save(menu);
-        System.out.println(menu);
 
         List<Menu> menyer = menuService.getAll();
         assertThat(menyer).hasSize(1);

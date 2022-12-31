@@ -55,8 +55,10 @@ public class ArticleController {
                 if(foundCategory.isPresent()){
                     articleDto.setCategory(foundCategory.get());
                 }else{
-                    //välj kategori i någon dialog i gui-t?
-
+                    System.out.println("Ingen kategori hittad för " + articleDto);
+                    redirectAttributes.addFlashAttribute("articleToCategorize", articleDto);
+                    redirectAttributes.addFlashAttribute("error_message", "Sortera mera - välj en kategori!");
+                    return "redirect:/lists/view/" + listId;
                 }
             }
         }
