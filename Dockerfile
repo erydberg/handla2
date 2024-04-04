@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjre-alpine:17.0.3
+FROM bellsoft/liberica-openjre-alpine:21.0.2
 VOLUME /tmp
 RUN addgroup -S springbootapp && adduser -S handla2 -G springbootapp
 USER handla2

@@ -5,17 +5,17 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>se.rydberg</groupId>
     <artifactId>handla2</artifactId>
-    <version>3.0.3</version>
+    <version>3.0.4</version>
     <name>handla2</name>
     <description>Handla-app med meny</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <docker.image.prefix>rydberg</docker.image.prefix>
     </properties>
 
