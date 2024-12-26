@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   handla2-mysql:
     hostname: handla2-mysql
