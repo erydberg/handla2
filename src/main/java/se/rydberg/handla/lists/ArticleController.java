@@ -1,24 +1,21 @@
 package se.rydberg.handla.lists;
 
+import jakarta.validation.Valid;
 import org.owasp.encoder.Encode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.validation.Valid;
-import java.util.Iterator;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
+    public static final String ERROR_MESSAGE = "error_message";
+    public static final String REDIRECT_LISTS_VIEW = "redirect:/lists/view/";
     private final ShopListService shopListService;
     private final ArticleService articleService;
     private final CategoryHintService categoryHintService;
@@ -31,17 +28,17 @@ public class ArticleController {
 
 
     @PostMapping("/addtolist/{id}")
-    public String addToShoplist(@Valid ArticleDTO articleDto, BindingResult bindingResult, @PathVariable String id,
+    public String addToShoplist(@Valid ArticleDTO articleDto, BindingResult bindingResult, @PathVariable("id") String id,
                                 Model model, RedirectAttributes redirectAttributes) {
         int listId = Integer.parseInt(Encode.forJava(id));
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addAttribute("error_message", "Skriv in något att handla");
-            return "redirect:/lists/view/" + listId;
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Skriv in något att handla");
+            return REDIRECT_LISTS_VIEW + listId;
         }
         articleDto.setTitle(Encode.forHtml(articleDto.getTitle()));
         ShopList shopEntity = shopListService.getShopEntity(listId);
         if (shopEntity == null) {
-            redirectAttributes.addAttribute("error_message", "Kan inte hitta listan i systemet");
+            redirectAttributes.addAttribute(ERROR_MESSAGE, "Kan inte hitta listan i systemet");
             return "error/general_error";
         }
         //testar om artikeln är ny och det ska sättas en kategori
@@ -57,8 +54,8 @@ public class ArticleController {
                 }else{
                     System.out.println("Ingen kategori hittad för " + articleDto);
                     redirectAttributes.addFlashAttribute("articleToCategorize", articleDto);
-                    redirectAttributes.addFlashAttribute("error_message", "Sortera mera - välj en kategori!");
-                    return "redirect:/lists/view/" + listId;
+                    redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "Sortera mera - välj en kategori!");
+                    return REDIRECT_LISTS_VIEW + listId;
                 }
             }
         }
@@ -71,13 +68,13 @@ public class ArticleController {
         articleDto.setShopList(shopEntity);
         articleService.save(articleDto);
 
-        return "redirect:/lists/view/" + listId;
+        return REDIRECT_LISTS_VIEW + listId;
     }
 
     // markera köpt/oköpt via restanrop
     @PutMapping(value = "/markbought/{id}/{bought}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void markBoughtStatus(@PathVariable String id, @PathVariable String bought) {
+    public void markBoughtStatus(@PathVariable("id") String id, @PathVariable("bought") String bought) {
         try {
             ArticleDTO article = articleService.getArticleById(Integer.parseInt(id));
             article.setBought(Boolean.parseBoolean(bought));
@@ -88,13 +85,17 @@ public class ArticleController {
     }
 
     @RequestMapping("/delete/{id}/from/{shoplistid}")
-    public String deleteArticle(@PathVariable String id, @PathVariable String shoplistid) {
+    public String deleteArticle(@PathVariable("id") String id, @PathVariable("shoplistid") String shoplistid) {
         ShopListDTO shopListDTO;
         // hitta rätt artikel i shoplist
         int listId = Integer.parseInt(Encode.forJava(shoplistid));
         int articleId = Integer.parseInt(Encode.forJava(id));
         try {
             shopListDTO = shopListService.getShopListById(listId);
+            shopListDTO.getArticles().removeIf(article -> article.getId().equals(articleId));
+            shopListService.save(shopListDTO);
+
+            /* OLD version, new using lambda
             Iterator<Article> itt = shopListDTO.getArticles().iterator();
             while (itt.hasNext()) {
                 Article a = itt.next();
@@ -104,7 +105,9 @@ public class ArticleController {
                     break;
                 }
             }
-            return "redirect:/lists/view/" + listId;
+
+             */
+            return REDIRECT_LISTS_VIEW + listId;
 
         } catch (Exception e) {
             // Lägga på felmeddelande

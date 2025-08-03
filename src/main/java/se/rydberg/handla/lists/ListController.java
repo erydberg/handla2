@@ -14,6 +14,8 @@ import java.util.Objects;
 @Controller
 @RequestMapping("lists")
 public class ListController {
+    public static final String SHOPLIST = "shoplist";
+    public static final String LISTS_LIST_EDIT = "lists/list-edit";
     private final ShopListService shopListService;
     private final CategoryService categoryService;
 
@@ -33,8 +35,8 @@ public class ListController {
                        RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("error_message", "Har du fyllt i allt du behöver?");
-            model.addAttribute("shoplist", shopListDTO);
-            return "lists/list-edit";
+            model.addAttribute(SHOPLIST, shopListDTO);
+            return LISTS_LIST_EDIT;
         } else {
             Integer savedListId;
             if (shopListDTO.getId() != null) {
@@ -60,19 +62,19 @@ public class ListController {
     @GetMapping("/new")
     public String createNew(Model model) {
         ShopList shopList = new ShopList();
-        model.addAttribute("shoplist", shopList);
-        return "lists/list-edit";
+        model.addAttribute(SHOPLIST, shopList);
+        return LISTS_LIST_EDIT;
     }
 
     @GetMapping("/edit/{id}")
-    public String editList(Model model, @PathVariable String id) {
+    public String editList(Model model, @PathVariable("id") String id) {
         ShopListDTO shopList = shopListService.getShopListById(Integer.parseInt(id));
-        model.addAttribute("shoplist", shopList);
-        return "lists/list-edit";
+        model.addAttribute(SHOPLIST, shopList);
+        return LISTS_LIST_EDIT;
     }
 
     @GetMapping("/view/{id}")
-    public String viewShoplist(Model model, @PathVariable String id) {
+    public String viewShoplist(Model model, @PathVariable("id") String id) {
         ShopList shopList = shopListService.getShopListWithArticlesSortedByCategory(Integer.parseInt(id));
 
         if (shopList == null) {
@@ -80,7 +82,7 @@ public class ListController {
             return "error/general_error";
         }
 
-        model.addAttribute("shoplist", shopList);
+        model.addAttribute(SHOPLIST, shopList);
         ArticleDTO article;
         ArticleDTO articleToCategorize = (ArticleDTO) model.getAttribute("articleToCategorize");
         article = Objects.requireNonNullElseGet(articleToCategorize, ArticleDTO::new);
@@ -94,8 +96,9 @@ public class ListController {
         return "lists/shoplist";
     }
 
+
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable String id, @RequestParam(required = false) String returnview) {
+    public String delete(@PathVariable("id") String id, @RequestParam("returnview") String returnview) {
         shopListService.delete(Integer.parseInt(id));
         String returnViewEncoded = Encode.forHtml(returnview);
         if (ReturnViewValidator.validate(returnViewEncoded)) {
@@ -105,8 +108,8 @@ public class ListController {
         }
     }
 
-    @RequestMapping(value = "/deleteboughtarticlesonlist/{id}", method = RequestMethod.GET)
-    public String deleteBoughtArticlesFromListWithId(@PathVariable String id) {
+    @GetMapping(value = "/deleteboughtarticlesonlist/{id}")
+    public String deleteBoughtArticlesFromListWithId(@PathVariable("id") String id) {
         int listId = Integer.parseInt(Encode.forJava(id));
         shopListService.deleteBoughtArticlesFromShopListWithId(listId);
         return "redirect:/lists/view/" + listId;

@@ -8,8 +8,8 @@ public class ReturnViewValidator {
             "/menu/favorites",
             "/lists",
             "/menu/history",
-            "/menu/neveragain",
             "/menu/planned",
+            "/menu/neveragain",
             "/menu/unplanned"};
 
     public static boolean validate(String returnview) {

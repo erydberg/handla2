@@ -35,7 +35,7 @@ public class CategoryController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(Model model, @PathVariable String id){
+    public String edit(Model model, @PathVariable("id") String id){
         CategoryDTO category = categoryService.getCategoryById(Integer.parseInt(id));
         model.addAttribute("category", category);
         return "lists/category-edit";
@@ -55,7 +55,7 @@ public class CategoryController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable String id){
+    public String delete(@PathVariable("id") String id){
         //TODO fundera på relationen här,
         categoryService.delete(Integer.parseInt(id));
         return "redirect:/category";
