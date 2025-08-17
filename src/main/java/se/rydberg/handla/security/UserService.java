@@ -48,6 +48,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public boolean hasAnyUsers() {
+        return userRepository.count() > 0;
+    }
+
     private HandlaUser toEntity(UserDTO user) {
         if (user != null) {
             return modelMapper.map(user, HandlaUser.class);

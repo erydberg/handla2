@@ -1,40 +1,51 @@
 services:
   handla2-mysql:
+    image: mysql:8.4
+    container_name: handla2-mysql
     hostname: handla2-mysql
-    image: mysql/mysql-server:8.0.23
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=handla
-      - MYSQL_USER=myapp-user
-      - MYSQL_PASSWORD=password
-      - TZ=UTC
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: handla
+      MYSQL_USER: myapp-user
+      MYSQL_PASSWORD: password
+      TZ: UTC
     ports:
-      - 3306:3306
+      - "3306:3306"
     networks:
       - handla
-    #volumes:
-    #  - ./db/data:/var/lib/mysql
+    volumes:
+            #      - ./db/data:/var/lib/mysql   # persist data locally
+      - handla2-mysql-data:/var/lib/mysql   # named volume instead of ./db/data
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   handla2-app:
-    image: rydberg/handla2:3.0.7
+    image: rydberg/handla2:3.0.8
+    container_name: handla2-app
     restart: on-failure
     depends_on:
-      - handla2-mysql
+      handla2-mysql:
+        condition: service_healthy
     ports:
-      - 8100:8080
+      - "8100:8080"
     environment:
-      - DATABASE_HOST=handla2-mysql
-      - DATABASE_USER=myapp-user
-      - DATABASE_PASSWORD=password
-      - DATABASE_NAME=handla
-      - DATABASE_PORT=3306
-      - TZ=UTC
-      - SPRING_PROFILES_ACTIVE=prod
+      DATABASE_HOST: handla2-mysql
+      DATABASE_USER: myapp-user
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: handla
+      DATABASE_PORT: 3306
+      TZ: UTC
+      SPRING_PROFILES_ACTIVE: prod
     networks:
       - handla
-    links:
-      - handla2-mysql
 
 networks:
   handla: {}
 
+volumes:
+  handla2-mysql-data:
+    name: handla2-mysql-data

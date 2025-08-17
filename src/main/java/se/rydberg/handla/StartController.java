@@ -1,9 +1,11 @@
 package se.rydberg.handla;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 import se.rydberg.handla.lists.ArticleService;
 import se.rydberg.handla.lists.ShopListService;
 import se.rydberg.handla.menu.MenuService;
@@ -47,9 +49,12 @@ public class StartController {
         //testLoader.loadLists();
 
 
+        if (userRepository.count() < 0) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Användare finns redan.");
+        }
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String losen = "{bcrypt}" + bCryptPasswordEncoder.encode("losen");
+        String losen = bCryptPasswordEncoder.encode("losen");
         Role userRole = new Role("ROLE_USER");
         roleRepository.save(userRole);
 
