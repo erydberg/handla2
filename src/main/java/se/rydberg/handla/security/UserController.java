@@ -1,5 +1,6 @@
 package se.rydberg.handla.security;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -22,9 +23,15 @@ public class UserController {
 
     @GetMapping("")
     public String start(Model model){
+        List<HandlaUser> users = userService.getAllUsers();
+        if (users.stream().anyMatch(handlaUser -> "admin".equals(handlaUser.getUsername()))) {
+           model.addAttribute("message", "Det ser ut som du har kvar standard-admin-kontot från när applikationen installerades. Skapa ett nytt konto och ta bort adminkontot för bättre säkerhet.");
+        }
         model.addAttribute("users", userService.getAllUsers());
+
         return "users/users-start";
     }
+
 
     @GetMapping("/new")
     public String newuser(Model model){
@@ -33,12 +40,14 @@ public class UserController {
         return "users/user-edit";
     }
 
+
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable("id") String id, Model model) {
         UserDTO user = userService.getUserBy(Long.parseLong(id));
         model.addAttribute("user",user);
         return "users/user-edit";
     }
+
 
     @PostMapping("/save")
     public String save(@Valid UserDTO userDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
@@ -52,6 +61,7 @@ public class UserController {
             return "redirect:/users";
         }
     }
+
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") String id){
