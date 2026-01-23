@@ -1,7 +1,7 @@
 package se.rydberg.handla.security;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +11,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public HandlaUser savenew(UserDTO userDto) {
@@ -24,8 +26,8 @@ public class UserService {
             Role role = roleService.getNormalUserRole();
             handlaUser.addRole(role);
             handlaUser.setEnabled(true);
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            String losen = "{bcrypt}" + bCryptPasswordEncoder.encode(handlaUser.getPassword());
+
+            String losen = passwordEncoder.encode(handlaUser.getPassword());
             handlaUser.setPassword(losen);
 
             return userRepository.save(handlaUser);
@@ -48,10 +50,6 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public boolean hasAnyUsers() {
-        return userRepository.count() > 0;
-    }
-
     private HandlaUser toEntity(UserDTO user) {
         if (user != null) {
             return modelMapper.map(user, HandlaUser.class);
@@ -66,5 +64,9 @@ public class UserService {
         }else{
             return null;
         }
+    }
+
+    public long count() {
+        return userRepository.count();
     }
 }
