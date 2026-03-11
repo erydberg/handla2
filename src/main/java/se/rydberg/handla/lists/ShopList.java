@@ -18,6 +18,7 @@ import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -34,7 +35,7 @@ public class ShopList {
     @NotEmpty(message = "Listan behöver ha ett namn")
     private String title;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     @OrderBy("bought,title asc")
     @JoinColumn(name = "fk_shoplist")
     @EqualsAndHashCode.Exclude
@@ -42,10 +43,6 @@ public class ShopList {
     private boolean useCategory;
 
     public Set<Article> getArticles(){
-        if(articles==null){
-            return new LinkedHashSet<>();
-        }else{
-            return articles;
-        }
+        return Objects.requireNonNullElseGet(articles, LinkedHashSet::new);
     }
 }
