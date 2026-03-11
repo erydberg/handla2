@@ -11,6 +11,7 @@ public class Handla2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Handla2Application.class, args);
+        System.out.println("Starting handla2-app");
 	}
 
 	@Bean
