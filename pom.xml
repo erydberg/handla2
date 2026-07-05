@@ -10,7 +10,7 @@
     </parent>
     <groupId>se.rydberg</groupId>
     <artifactId>handla2</artifactId>
-    <version>3.1.3</version>
+    <version>3.1.4</version>
     <name>handla2</name>
     <description>Handla-app med meny</description>
 
@@ -135,7 +135,7 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>3.4.4</version>
+                <version>3.5.1</version>
                 <configuration>
                     <from>
                         <image>bellsoft/liberica-openjre-alpine:21.0.8</image>
