@@ -23,6 +23,7 @@ public class AdminUserInitializer {
             System.out.println("No users found, creating a start user");
             UserDTO user = new UserDTO();
             user.setEnabled(true);
+            System.out.println("Creating admin user");
             user.setPassword("admin");
             user.setUsername("admin");
             userService.savenew(user);
