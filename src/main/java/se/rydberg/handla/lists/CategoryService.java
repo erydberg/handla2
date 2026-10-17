@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -33,6 +34,10 @@ public class CategoryService {
     public CategoryDTO getCategoryById(Integer id) {
         Category category = categoryRepository.getById(id);
         return toDto(category);
+    }
+
+    public Optional<Category> findById(Integer id) {
+        return categoryRepository.findById(id);
     }
 
     public List<CategoryDTO> getAllCategories() {

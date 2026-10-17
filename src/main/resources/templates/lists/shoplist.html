@@ -32,7 +32,9 @@
                 $(this).attr("class", "close");
 
                 //lägga till länk för ta bort
-                var delButton = "<a class='delbutton' href='" + deleteUrl + articleId + "/from/" + listid + "'><img src='" + path + "styles/delete.png'></a>";
+                var delButton = "<form class='delbutton inline-form' method='post' action='" + deleteUrl + articleId + "/from/" + listid + "'>" +
+                    "<input type='hidden' name='_csrf' value='" + token + "'>" +
+                    "<button type='submit' class='link-button'><img src='" + path + "styles/delete.png'></button></form>";
                 $(delButton).insertAfter(this);
                 //lägga till funktion för edit
                 var editButton = "<img class='editbutton' data-id='" + articleId + "' data-text='" + articleText + "' src='" + path + "styles/edit3.png'>";
@@ -105,8 +107,8 @@
 <span class="toolbar">
     <a class="toolitem" th:href="@{'/lists'}"><img th:src="@{/styles/back.png}"></a>
     <a class="toolitem" th:href="@{'/lists/edit/' + ${shoplist.id}}"><img class="edit" th:src="@{/styles/edit2.png}"></a>
-    <a class="toolitem" th:href="@{'/lists/deleteboughtarticlesonlist/' + ${shoplist.id}}"><img
-            th:src="@{/styles/list-delete.png}"></a>
+    <form method="post" class="toolitem inline-form" th:action="@{'/lists/deleteboughtarticlesonlist/' + ${shoplist.id}}"><button
+            type="submit" class="link-button"><img th:src="@{/styles/list-delete.png}"></button></form>
     <a class="toolitem" href="#" onClick="reloadPage();"><img th:src="@{/styles/reload.png}"></a>
 </span>
     <h1 th:text="${shoplist.title}"></h1>

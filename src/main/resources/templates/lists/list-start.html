@@ -17,7 +17,7 @@
     <ul class="list">
             <li  th:each="shoplist: ${shoplists}">
                 <a th:href="@{'/lists/view/' + ${shoplist.id}}" th:text="${shoplist.title}"></a>
-                <a th:href="@{'/lists/delete/' + ${shoplist.id} + '?returnview=/lists'}" class="del" onclick="return (confirm('Vill du ta bort listan?'))"/><img th:src="@{/styles/delete.png}"></a>
+                <form method="post" th:action="@{'/lists/delete/' + ${shoplist.id} + '?returnview=/lists'}" class="del inline-form" onsubmit="return confirm('Vill du ta bort listan?')"><button type="submit" class="link-button"><img th:src="@{/styles/delete.png}"></button></form>
             </li>
     </ul>
 </div>

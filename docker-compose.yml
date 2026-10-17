@@ -9,8 +9,6 @@ services:
       MYSQL_USER: myapp-user
       MYSQL_PASSWORD: password
       TZ: UTC
-    ports:
-      - "3306:3306"
     networks:
       - handla
     volumes:
@@ -24,7 +22,7 @@ services:
       start_period: 20s
 
   handla2-app:
-    image: rydberg/handla2:3.1.2
+    image: rydberg/handla2:3.2.0
     container_name: handla2-app
     restart: on-failure
     depends_on:
@@ -40,6 +38,8 @@ services:
       DATABASE_PORT: 3306
       TZ: UTC
       SPRING_PROFILES_ACTIVE: prod
+      # fast hemlig nyckel så att "kom ihåg mig" överlever omstarter, sätts t.ex. i en .env-fil
+      HANDLA_REMEMBER_ME_KEY: ${HANDLA_REMEMBER_ME_KEY:-}
     networks:
       - handla
 

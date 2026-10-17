@@ -18,8 +18,7 @@
     <ul class="list">
         <li th:each="menu: ${menus}">
             <a th:href="@{'/menu/detail/' + ${menu.id}}" th:text="${menu.title}"></a>
-            <a th:href="@{'/menu/delete/' + ${menu.id} + '?returnview=/menu/unplanned'}" class="del"
-               onclick="return (confirm('Vill du ta bort receptet?'))"/><img th:src="@{/styles/delete.png}"></a>
+            <form method="post" th:action="@{'/menu/delete/' + ${menu.id} + '?returnview=/menu/unplanned'}" class="del inline-form" onsubmit="return confirm('Vill du ta bort receptet?')"><button type="submit" class="link-button"><img th:src="@{/styles/delete.png}"></button></form>
         </li>
     </ul>
 </div>

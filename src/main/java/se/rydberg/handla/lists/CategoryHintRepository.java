@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoryHintRepository extends JpaRepository<CategoryHint, Integer> {
-    CategoryHint findByName(String name);
+    CategoryHint findFirstByNameIgnoreCase(String name);
 }

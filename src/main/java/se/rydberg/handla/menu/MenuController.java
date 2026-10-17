@@ -140,7 +140,7 @@ public class MenuController {
 
     }
 
-    @GetMapping("delete/{id}")
+    @PostMapping("delete/{id}")
     public String delete(@PathVariable("id") String id, @RequestParam("returnview") String returnview) {
         menuService.delete(Integer.parseInt(id));
         String returnViewEncoded = Encode.forHtml(returnview);
