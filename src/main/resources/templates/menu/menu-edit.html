@@ -12,11 +12,18 @@
         var imageUrl = /*[[@{'/image/'}]]*/ null;
         var rotateUrl = /*[[@{'/image/rotate/'}]]*/ null;
 
+        function csrfHeaders() {
+            var headers = {};
+            headers[$('#_csrf_header').attr('content')] = $('#_csrf').attr('content');
+            return headers;
+        }
+
         function deletePicture(id) {
 
             jQuery.ajax({
                 url: imageUrl + id,
                 type: 'DELETE',
+                headers: csrfHeaders(),
 
                 success: function (data) {
                     document.getElementById('showimage').remove();
@@ -31,7 +38,8 @@
 
             jQuery.ajax({
                 url: rotateUrl + id,
-                type: 'GET',
+                type: 'POST',
+                headers: csrfHeaders(),
 
                 success: function (data) {
                     document.getElementById('showimage').removeAttribute('src');

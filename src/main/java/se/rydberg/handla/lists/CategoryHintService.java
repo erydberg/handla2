@@ -17,7 +17,7 @@ public class CategoryHintService {
     }
 
     public CategoryHint find(String name) {
-        return categoryHintRepository.findByName(name);
+        return categoryHintRepository.findFirstByNameIgnoreCase(name);
     }
 
     public Optional<Category> findCategoryFor(String name) {

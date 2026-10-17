@@ -66,7 +66,7 @@ public class ImageController {
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Bild borttagen"));
     }
 
-    @GetMapping("/rotate/{id}")
+    @PostMapping("/rotate/{id}")
     public ResponseEntity<String> rotateImage (@PathVariable("id") String id) throws IOException {
         String imageId = Encode.forJava(id);
         MenuImage image = imageService.getImageById(imageId);

@@ -23,7 +23,7 @@
     <ul class="list">
             <li  th:each="handlaUser: ${users}">
                 <a th:href="@{'/users/edit/' + ${handlaUser.id}}" th:text="${handlaUser.username}"></a>
-                <a th:href="@{'/users/delete/' + ${handlaUser.id}}" class="del" onclick="return (confirm('Vill du ta bort användaren?'))"/><img th:src="@{/styles/delete.png}"></a>
+                <form method="post" th:action="@{'/users/delete/' + ${handlaUser.id}}" class="del inline-form" onsubmit="return confirm('Vill du ta bort användaren?')"><button type="submit" class="link-button"><img th:src="@{/styles/delete.png}"></button></form>
             </li>
     </ul>
 </div>

@@ -54,7 +54,7 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") String id){
         //TODO fundera på relationen här,
         categoryService.delete(Integer.parseInt(id));

@@ -3,6 +3,7 @@ package se.rydberg.handla.security;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,9 +13,11 @@ public class UserService {
     private final RoleService roleService;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final ApiTokenRepository apiTokenRepository;
 
-    public UserService(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, PasswordEncoder passwordEncoder, ApiTokenRepository apiTokenRepository) {
         this.userRepository = userRepository;
+        this.apiTokenRepository = apiTokenRepository;
         this.roleService = roleService;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
@@ -42,7 +45,9 @@ public class UserService {
     }
 
 
+    @Transactional
     public void delete(Long id) {
+        userRepository.findById(id).ifPresent(user -> apiTokenRepository.deleteAll(apiTokenRepository.findByUserOrderByCreatedAtDesc(user)));
         userRepository.deleteById(id);
     }
 

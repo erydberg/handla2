@@ -3,6 +3,8 @@ package se.rydberg.handla.lists;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ArticleService {
     private final ArticleRepository articleRepository;
@@ -17,6 +19,14 @@ public class ArticleService {
         articleDTO.setTitle(Sanitize.setCapitalFirstLetter(articleDTO.getTitle()));
         Article articleEntity = toEntity(articleDTO);
         return articleRepository.save(articleEntity);
+    }
+
+    public Article saveEntity(Article article) {
+        return articleRepository.save(article);
+    }
+
+    public Optional<Article> findById(Integer id) {
+        return articleRepository.findById(id);
     }
 
     public void delete(Integer id) {

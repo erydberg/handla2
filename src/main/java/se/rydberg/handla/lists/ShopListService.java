@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,10 @@ public class ShopListService {
         return shopListRepository.getOne(id);
     }
 
+
+    public Optional<ShopList> findById(Integer id) {
+        return shopListRepository.findById(id);
+    }
 
     public ShopList getShopListWithArticles(Integer id) {
         return shopListRepository.getShopListWithArticles(id);

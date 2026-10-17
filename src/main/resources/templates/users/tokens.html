@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="sv" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/header :: header}"></th:block>
+    <title>Handlaappen - API-nycklar</title>
+</head>
+<body>
+<div class="nav-box">
+<span class="toolbar">
+    <a class="toolitem" th:href="@{'/'}"><img th:src="@{/styles/back.png}"></a>
+</span>
+    <h1>API-nycklar</h1>
+</div>
+<div class="successblock" th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+<div class="successblock" th:if="${newToken}">
+    <p>Ny nyckel skapad. Kopiera den nu, den visas inte igen:</p>
+    <p><code th:text="${newToken}" style="word-break: break-all; user-select: all;"></code></p>
+</div>
+<div class="notepad">
+    <form method="POST" th:action="@{/users/tokens/new}">
+        <input type="text" name="name" placeholder="Namn, t.ex. Apple Watch" maxlength="100"/>
+        <button type="submit">Skapa nyckel</button>
+    </form>
+    <ul class="list">
+        <li th:each="token: ${tokens}">
+            <span th:text="${token.name}"></span>
+            <small>
+                skapad <span th:text="${token.createdText}"></span>,
+                senast använd <span th:text="${token.lastUsedText}"></span>
+            </small>
+            <form method="POST" th:action="@{'/users/tokens/revoke/' + ${token.id}}" style="display:inline"
+                  onsubmit="return confirm('Vill du ta bort nyckeln? Genvägar som använder den slutar fungera.')">
+                <button type="submit" class="link-button del"><img th:src="@{/styles/delete.png}"></button>
+            </form>
+        </li>
+    </ul>
+    <h2>Så använder du nyckeln i Genvägar</h2>
+    <ol>
+        <li><b>Diktera text</b> (svenska)</li>
+        <li><b>Hämta innehåll i URL</b>: <code>https://&lt;din adress&gt;/api/lists/&lt;listans id&gt;/articles</code>,
+            metod POST, rubrik <code>Authorization</code> = <code>Bearer hk_…</code>, JSON-brödtext <code>text</code> = Dikterad text.
+            Listornas id får du med <code>GET /api/lists</code>.</li>
+        <li>Om svaret har <code>needsCategory</code> = sant: <b>Välj från lista</b> bland <code>categories</code>, och skicka
+            <code>PUT /api/articles/&lt;id&gt;/category</code> med JSON <code>categoryId</code>.</li>
+        <li>Slå på <i>Visa på Apple Watch</i> och säg "Hej Siri, &lt;genvägens namn&gt;".</li>
+    </ol>
+</div>
+</body>
+</html>

@@ -84,7 +84,7 @@ public class ArticleController {
         }
     }
 
-    @RequestMapping("/delete/{id}/from/{shoplistid}")
+    @PostMapping("/delete/{id}/from/{shoplistid}")
     public String deleteArticle(@PathVariable("id") String id, @PathVariable("shoplistid") String shoplistid) {
         ShopListDTO shopListDTO;
         // hitta rätt artikel i shoplist

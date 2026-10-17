@@ -97,7 +97,7 @@ public class ListController {
     }
 
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") String id, @RequestParam("returnview") String returnview) {
         shopListService.delete(Integer.parseInt(id));
         String returnViewEncoded = Encode.forHtml(returnview);
@@ -108,7 +108,7 @@ public class ListController {
         }
     }
 
-    @GetMapping(value = "/deleteboughtarticlesonlist/{id}")
+    @PostMapping(value = "/deleteboughtarticlesonlist/{id}")
     public String deleteBoughtArticlesFromListWithId(@PathVariable("id") String id) {
         int listId = Integer.parseInt(Encode.forJava(id));
         shopListService.deleteBoughtArticlesFromShopListWithId(listId);
