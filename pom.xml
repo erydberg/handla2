@@ -5,18 +5,22 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>se.rydberg</groupId>
     <artifactId>handla2</artifactId>
-    <version>3.2.1</version>
+    <version>3.3.0</version>
     <name>handla2</name>
     <description>Handla-app med meny</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <docker.image.prefix>rydberg</docker.image.prefix>
+        <!-- inte hanterade av Spring Boot -->
+        <modelmapper.version>3.2.6</modelmapper.version>
+        <imgscalr.version>4.2</imgscalr.version>
+        <owasp-encoder.version>1.4.0</owasp-encoder.version>
     </properties>
 
     <dependencies>
@@ -43,7 +47,6 @@
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
-            <!--<version>3.1.1.RELEASE</version>-->
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -62,22 +65,13 @@
         </dependency>
 
         <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>4.0.5</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-            <!--<version>1.18.20</version>-->
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.20.0</version>
         </dependency>
 
         <dependency>
@@ -99,17 +93,17 @@
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>3.2.6</version>
+            <version>${modelmapper.version}</version>
         </dependency>
         <dependency>
             <groupId>org.imgscalr</groupId>
             <artifactId>imgscalr-lib</artifactId>
-            <version>4.2</version>
+            <version>${imgscalr.version}</version>
         </dependency>
         <dependency>
             <groupId>org.owasp.encoder</groupId>
             <artifactId>encoder</artifactId>
-            <version>1.4.0</version>
+            <version>${owasp-encoder.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
@@ -124,7 +118,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>21</release>
+                    <release>${java.version}</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -139,7 +133,7 @@
                 <version>3.5.1</version>
                 <configuration>
                     <from>
-                        <image>bellsoft/liberica-openjre-alpine:21.0.8</image>
+                        <image>bellsoft/liberica-openjre-alpine:25.0.5.1</image>
                         <platforms>
                             <platform>
                                 <architecture>arm64</architecture>
