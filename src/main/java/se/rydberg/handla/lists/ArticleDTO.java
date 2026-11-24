@@ -17,7 +17,7 @@ public class ArticleDTO {
 
     @NotEmpty(message = "Vad vill du skriva upp på listan?")
     private String title;
-    private boolean bought = false;
+    private boolean bought;
     @EqualsAndHashCode.Exclude
     private ShopList shopList;
     @EqualsAndHashCode.Exclude

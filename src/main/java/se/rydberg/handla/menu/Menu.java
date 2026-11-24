@@ -23,6 +23,7 @@ public class Menu {
     private LocalDate dayToEat;
     private String descriptionUrl;
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private Grade grade = Grade.UN_GRADED;
     private String imageId;
     private FoodTime foodTime;

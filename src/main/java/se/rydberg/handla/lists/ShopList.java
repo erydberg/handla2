@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -35,10 +34,10 @@ public class ShopList {
     @NotEmpty(message = "Listan behöver ha ett namn")
     private String title;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     @OrderBy("bought,title asc")
     @JoinColumn(name = "fk_shoplist")
     @EqualsAndHashCode.Exclude
+    @Builder.Default
     private Set<Article> articles = new LinkedHashSet<>();
     private boolean useCategory;
 

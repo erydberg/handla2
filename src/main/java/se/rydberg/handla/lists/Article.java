@@ -20,7 +20,7 @@ public class Article {
     @NotEmpty(message = "Vad vill du skriva upp på listan?")
     private String title;
 
-    private boolean bought = false;
+    private boolean bought;
 
     @ManyToOne
     @JoinColumn(name = "fk_shoplist")
