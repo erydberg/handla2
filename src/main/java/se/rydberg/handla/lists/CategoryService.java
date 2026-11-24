@@ -32,7 +32,7 @@ public class CategoryService {
     }
 
     public CategoryDTO getCategoryById(Integer id) {
-        Category category = categoryRepository.getById(id);
+        Category category = categoryRepository.getReferenceById(id);
         return toDto(category);
     }
 

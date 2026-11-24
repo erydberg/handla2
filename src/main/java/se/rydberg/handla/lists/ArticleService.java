@@ -34,7 +34,7 @@ public class ArticleService {
     }
 
     public ArticleDTO getArticleById(Integer id) {
-        Article articleEntity = articleRepository.getOne(id);
+        Article articleEntity = articleRepository.getReferenceById(id);
         return toDto(articleEntity);
     }
 

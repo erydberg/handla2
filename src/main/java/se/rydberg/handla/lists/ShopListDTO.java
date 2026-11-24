@@ -22,6 +22,7 @@ public class ShopListDTO {
     @NotEmpty(message = "Listan behöver ha ett namn")
     private String title;
     @EqualsAndHashCode.Exclude
+    @Builder.Default
     private Set<Article> articles = new LinkedHashSet<>();
     private boolean useCategory;
 

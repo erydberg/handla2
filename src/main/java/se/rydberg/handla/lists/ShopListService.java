@@ -42,7 +42,7 @@ public class ShopListService {
 
 
     public ShopList getShopEntity(Integer id) {
-        return shopListRepository.getOne(id);
+        return shopListRepository.getReferenceById(id);
     }
 
 
@@ -68,12 +68,12 @@ public class ShopListService {
     }
 
     public ShopListDTO getShopListById(Integer id) {
-        ShopList shopListEntity = shopListRepository.getOne(id);
+        ShopList shopListEntity = shopListRepository.getReferenceById(id);
         return toDto(shopListEntity);
     }
 
     private ShopList getShopListEntityById(Integer id){
-        return shopListRepository.getOne(id);
+        return shopListRepository.getReferenceById(id);
     }
 
     public void deleteBoughtArticlesFromShopListWithId(Integer id) {

@@ -22,6 +22,7 @@ public class MenuDTO {
     private LocalDate dayToEat;
     @URL(message = "Länken behöver vara korrekt")
     private String descriptionUrl;
+    @Builder.Default
     private Grade grade = Grade.UN_GRADED;
     private String imageId;
     private FoodTime foodTime;
